@@ -9,6 +9,8 @@ The three personas we cover are:
 -   Dev Team Lead (Development Manager)
 -   Developer
 
+> **Depending on the level of challenge you want, you can either follow the high-level tasks, or expand the detailed steps for some help. Have fun!**
+
 ## Contents
 
 - [Microsoft Dev Box Level-Up Lab Instructions](#microsoft-dev-box-level-up-lab-instructions)
@@ -63,7 +65,6 @@ It is not one of the pre-existing demo accounts such as *Adele Vance* or *Alex W
 Please work through the below steps before starting the first lab.
 
 ## Designate your user accounts for this and future labs 
-
 -   Log into the Azure Portal with your global administrator account
 
 -   Go to "Azure Active Directory".
@@ -75,11 +76,7 @@ Please work through the below steps before starting the first lab.
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image2.png" width="75%" /></div>
 
--   Pick two user accounts from the dummy user accounts created during
-    your E5 setup. For this and all following labs we will use Adele as
-    the Development Manager persona and Alex as the Developer persona.
-    You may however pick any other user account that exists in the
-    tenant.
+-   Pick two user accounts that aren’t admins for this lab. **They should be dummy accounts and not assigned to actual people**. For this and all following labs we will use Adele as the Development Manager persona and Alex as the Developer persona. You may however pick any other user account that exists in the tenant.
 
 > **Note:**
 > At the time of writing Microsoft Dev Box does not support guest accounts. This feature is on the roadmap and until it is available, you cannot use guest accounts for some of the tasks outlined.
@@ -102,6 +99,8 @@ Please work through the below steps before starting the first lab.
 > **Note:**
 > We do not recommend writing passwords down in a digital plaintext format in production scenarios. We are doing it here to optimize the speed at which you can move through the lab activities.
 
+
+
 # Lab 1 - IT Admin Persona
 
 Please perform the following steps as your **global administrator account**.\
@@ -112,6 +111,10 @@ The steps in this lab will take you about 45 minutes to 1 hour to complete.
 The next step is to create a range of resources that we will need so our Dev Manager can create Projects which will in turn enable their developers to spin up Dev Boxes.
 
 ### Create a virtual network 
+TASK: Create a *Virtual Network* resource inside a resource group named "DevCenter-Network" in your preferred region.
+
+<details>
+  <summary>Click to view detailed steps</summary>
 
 -   In the Azure Portal go to the "Create a resource" menu which can be
     found by clicking the menu button in the top left corner of the
@@ -144,9 +147,13 @@ The next step is to create a range of resources that we will need so our Dev Man
 -   For the purposes of the demo environment that we are creating we can leave all other options as they are and click **"Review & Create".**
 
 -   Confirm the details and start the deployment.
+</details>
 
 ### Create a network connection
+TASK: Create a *Network Connection* resource inside a resource group named "DevCenter-Core" attached to the Virtual Network previously created.
 
+<details>
+  <summary>Click to view detailed steps</summary>
 Once the network is deployed, we need to create a network connection
 that we'll be able to leverage for our dev boxes.
 
@@ -165,9 +172,13 @@ that we'll be able to leverage for our dev boxes.
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image9.png" width="75%" /></div>
 
 -   Click **"Review & Create"** and confirm the deployment by clicking **"Create"**.
+</details>
 
-### Create the Dev Center
+### Create a Dev Center
+TASK: Create a *Dev Center* resource inside the "DevCenter-Core" resource group, and attach the previously created Network Connection.
 
+<details>
+  <summary>Click to view detailed steps</summary>
 In the Azure Portal, **go back to the "Create a resource" blade** and in the search box, type **"Dev Center"** and then select "Dev Center" from the list. Click the **"Create"** option.
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image10.png" width="75%" /></div>
@@ -196,6 +207,7 @@ In the Azure Portal, **go back to the "Create a resource" blade** and in the sea
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image13.png" width="75%" /></div>
 
 -   The Dev center now knows how to connect new Dev Boxes to your Azure virtual network. Next, we need to create dev box definitions.
+</details>
 
 ### Preparing a custom Dev Box image
 
