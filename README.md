@@ -213,6 +213,10 @@ In the Azure Portal, **go back to the "Create a resource" blade** and in the sea
 
 While Microsoft Dev Box offers a growing library of images for you to use, many scenarios may require you to bring a custom image.
 
+TASK: Create a *Virtual Machine* resource from the *Visual Studio 22 Enterprise on Windows 11 Enterprise N (x64) – x64 Gen 2* base image inside a resource group called "Image-Capture".
+
+<details>
+  <summary>Click to view detailed steps</summary>
 In this section we will run through the **basic steps to capture a custom image**, which we'll then store in an **Azure Compute Gallery** from where our Dev Center will be able to access it.
 
 -   In the Azure Portal, go back to the **"Create a resource"** blade and search for **"Virtual Machine".**
@@ -237,7 +241,12 @@ In this section we will run through the **basic steps to capture a custom image*
     -   **Set a user name and password.** You may note them down as you'll have to use them to RDP to the VM in the next step.
     -   **All other options can remain as they are.**
 -   Confirm all selections and deploy the virtual machine.
+</details>
 
+TASK: Run the *sysprep* utility on the Virtual Machine choosing the "Out-of-Box Experience" to generalize the image, ready for capture. 
+
+<details>
+  <summary>Click to view detailed steps</summary>
 Once the deployment is complete head to the new resource group and select the virtual machine.
 -   Once on the VM resource blade **choose the option to connect** or copy the IP address into your RDP client.
 
@@ -271,7 +280,12 @@ custom VM image.
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image20.png" width="25%" /></div>
 
 With the remote session now closed you will find yourself back in your browser window.
+</details>
 
+TASK: Capture the generalized image, making the "DevCenter-Core" resource group the destination.
+
+<details>
+  <summary>Click to view detailed steps</summary>
 -   Refresh the browser window to ensure that your machine's status says "Stopped", then click the **"Capture"** icon to start capturing an image.
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image21.png" width="75%" /></div>
@@ -284,9 +298,13 @@ With the remote session now closed you will find yourself back in your browser w
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image22.png" width="75%" /></div>
 
 Creating the image will take a few minutes to complete. While you are waiting, you can move to the next step where we will create a Dev Box definition with a built-in VM image, before returning to our custom image.
+</details>
 
 ### Create a base Dev Box definition with a built-in VM image 
+TASK: In the *Dev Center* resource, create a *Windows 11 Enterprise + Microsoft 365 Apps 21H2* Dev Box definition with 4vCPUs and 16GB RAM.
 
+<details>
+  <summary>Click to view detailed steps</summary>
 -   **Return to the "DevCenter-Core" resource group** in the Azure Portal and select your Dev Center resource.
 -   To create a new dev box definition, select **"Dev box definitions"** in the side bar.
 -   Select the **"Create"** option in the blade that appears.
@@ -301,10 +319,15 @@ Creating the image will take a few minutes to complete. While you are waiting, y
 
 -   Click the **"Create"** button. This makes the definition available to managers in the organization to select for their projects.
 -   Once back on the main blade the **"Image Status"** may show as "pending" for a few moments but should soon update to "Succeeded"
+</details>
 
 ### Create a Dev Box definition with a custom VM image 
-
 > **Note:** you can only complete this step once the custom image has been created in your **DevCenter-Core resource group**.
+
+TASK: Create a *user-assigned managed identity* in the DevCenter-Core resource group.
+
+<details>
+  <summary>Click to view detailed steps</summary>
 
 In this step we will add our managed image to a new Azure Compute gallery so that we can use it with Microsoft Dev Box.
 To allow our Dev Center to manage images independently we need to also assign a Managed Identity to the resource.
@@ -322,12 +345,23 @@ Open the **"Create"** menu and type "User assigned", then select the "User Assig
 -   **Pick a descriptive name** for the resource and place it in the **DevCenter-Core** resource group.
 -   All other options can remain as defaults.
 -   Choose the **"Review + Create"** option and **confirm the creation** of the resource.
+</details>
+
+TASK: Assign the previously created identity to the Dev Center resource.
+
+<details>
+  <summary>Click to view detailed steps</summary>
 -   **Return to the "DevCenter-Core" resource group** in the Azure Portal and select your Dev Center resource.
 -   Select **"Identity**" in the side bar and then select the **"User assigned"** tab and click **"Add"**
 -   Select the managed identity object that you created at the start of this task, then select **"Add"**.
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image26.png" width="65%" /></div>
+</details>
 
+TASK: Create an *Azure Compute Gallery* and add the VM image definition captured previously. Ensure that security type is "Trusted Launch". Add a version.
+
+<details>
+  <summary>Click to view detailed steps</summary>
 In order to use our custom image that we created previously with our **Dev Center** we need to place it in an **Azure Compute Gallery**.
 
 -   In the Azure Portal open the **"Create"** menu once again and search for **"Compute Gallery".**
@@ -380,7 +414,12 @@ It will take a few moments for this process to complete.
 -   This process will take a few minutes and the image version will eventually show up in the "versions" tab of the image definition blade.
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image32.png" width="60%" /></div>
+</details>
 
+TASK: Add the *Azure Compute Gallery* to the Dev Center and create a Dev Box definition for both the custom image and the built-in image.
+
+<details>
+  <summary>Click to view detailed steps</summary>
 While we wait for this process to complete, we can start creating dev box definitions that leverage both our custom and the built-in images.
 The first step will be to make our Dev Center aware of our custom image gallery.
 
@@ -415,11 +454,16 @@ The first step will be to make our Dev Center aware of our custom image gallery.
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image34.png" width="95%" /></div>
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image35.png" width="60%" /></div>
+</details>
 
 ### Assign permissions to the other two personas
 
 As a final step in this lab, we will give permissions to our Dev Manager account to manage the project that they are working on. We will also give our Developer the ability to create Dev Boxes for this project and create a deployment target for them to use later.
 
+TASK: Create a *Project* resource in the Dev Center. Assign Adele the *DevCenter Project Admin* role, and Alex the *DevCenter Dev Box User* role. Give both users the *Reader* role.
+
+<details>
+  <summary>Click to view detailed steps</summary>
 -   **Return to the "DevCenter-Core" resource group** in the Azure
     Portal and select your Dev Center resource.
 
@@ -448,9 +492,15 @@ Once the project is created, we need to assign roles to it.
 -   Follow the same steps to give the "Developer" (Alex) the **"DevCenter Dev Box User"** role and the **"Reader"** role on the project resource.
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image40.png" width="75%" /></div>
+</details>
 
 Finally, we also want to create a target environment for deployment via
 the dev box at a later stage.
+
+TASK: Create a resource group named "Deployment-Target" and assign roles to make Adele the *Owner*, and Alex a *Contributor*.
+
+<details>
+  <summary>Click to view detailed steps</summary>
 
 -   Use the **"Create"** menu to create a new resource group called **"Deployment-Target"**
 
@@ -466,6 +516,7 @@ completed, but this time...
     -   ...add the developer as a Contributor
 
 > **Note:** The development manager persona would most likely perform this second step, but we're doing it on the admin user here for efficiency.
+</details>
 
 This lab is now complete.
 
