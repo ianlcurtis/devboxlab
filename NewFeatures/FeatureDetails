@@ -1,1 +1,43 @@
+Modern software development can drive innovation to new heights, but to get there, developers need tools that are built to handle today’s challenges and future demands. While some organizations look to traditional Virtual Desktop Infrastructure (VDI) for solutions, it’s not flexible enough for today’s development teams. Microsoft Dev Box bridges the gap by delivering cloud development environments that meet the unique needs of developers and dev teams, while also empowering the admins that support them. We’re excited to introduce new features that make it much easier for dev leads to configure and provision project-based workstations for their dev teams, along with new guardrails that further enhance security and compliance.
 
+Read on—and learn how you can get started and leverage these capabilities to streamline development, strengthen security, and unlock more innovation for your organization.
+
+Improve your engineering systems with custom dev environments
+Dev Box dramatically speeds up developer onboarding over physical machines and VDI, as we saw in this GigaOM study. However, developers rarely work only on a single project. Developers often work across multiple projects, each with its own set of requirements, meaning that they spend a lot of time and effort just getting ready to start. Unfortunately, repeatedly configuring environments with all the tools, packages, and settings drains precious time and productivity for developers and admin teams alike.
+
+In contrast, Dev Box breaks from the status quo to empower developers to take a highly efficient “task-based” development approach, and use different dev boxes pre-configured for different projects. We’re excited to announce that new team customizations and imaging capabilities, now in preview, enable developers to work more seamlessly and productively across tasks. These capabilities accelerate onboarding to give developers easy access to environments tailored to each of their projects.
+
+Team customizations enable dev team leads to easily create ready-to-code Dev Box configurations for their entire team—they just write a configuration file once and everyone benefits. Once a dev lead adds a configuration file to a project in Dev Box, developers simply select their project to inherit the right configuration. But the benefits are not limited to dev teams. Team customizations also significantly frees up platform engineers and IT admins, removing the burden of creating and managing custom images, and the time spent working with individual developers to install tools for each project. Find out how easy it is to begin using team customizations today.
+
+Image IM, image
+
+But Dev Box goes even further to help dev teams scale and support the most demanding, wide-ranging development needs. Dev Box imaging now enables dev team leads to convert team customizations directly into images to significantly reduce provisioning time for new dev boxes. Once they’ve written their configuration file, dev leads can get these custom images at just the click of a button. Imaging also removes the need for admins to maintain custom image pipelines and enables automatic upstream OS updates on generated images, giving admins even more time back to focus on higher-value security and management tasks.
+
+Image TC, image
+
+Dev Box also now enables development teams to leverage new native support for Winget, Desire State Configuration (DSC), and PowerShell when using team customizations, speeding up the time to install packages and apply team configurations. Dev teams can enhance security with new WinGet support for Microsoft Entra ID by ensuring that only authorized users can access and install packages, and now developers can more easily manage configurations with the help of new capabilities in DSC v3 like imports, secrets and parameters, and environment variables. Additionally, we’ve now added support for secrets and variables to Dev Box, enabling dev teams to reuse centralized secrets stored in Azure Key Vault to protect sensitive data and making it notably easier for teams to work securely. These enhancements are a few of the ways Dev Box is making development team workflows even more efficient and secure.
+
+Enhance security while managing large and diverse dev teams
+The team-based customization capabilities we just introduced are in large part thanks to the project management layer built into Dev Box. This level of management not only gives dev leads and the teams the flexibility to create project-based configurations, but it significantly benefits admins as well. Admins can already set policies, permissions, and user controls by project—making it easy to apply stricter security controls for teams working in highly regulated industries while applying more genericized policies elsewhere.
+
+However, today, we’re excited to announce expanded project policy management that applies these controls to even more resources. Admins can now manage access to Dev Box components like images, SKUs, and networks on a project-by-project basis, giving them stricter control of the different types of dev boxes different teams can configure. For instance, admins can limit access to high-performance SKUs to teams they know need them—reducing the risk of dev teams overprovisioning Compute and racking up unnecessary costs.
+
+Admin oversight in Dev Box isn’t just limited to managing cloud resources. With new Dev Box instances automatically enrolled in Microsoft Intune, admins can manage dev boxes like any other device, and the capabilities available to admins in Intune are continuing to expand, too. For instance, admins can now manage WSL (Windows Subsystem for Linux) based Dev Box deployments from Intune. Check out new WSL enhancements announced at Ignite this year to learn about Intune device compliance integration and added security through the new Microsoft Entra ID integration.
+
+Additionally, we continue to expand how admins can use Azure Monitor with Dev Box, and now offer Dev Box usage metrics for greater visibility into the ways developers are (or aren’t) using their Dev Box resources. These metrics give admins greater visibility to make sure Dev Box is running how it’s supposed to and ensure developers aren’t misusing their resources. To see these metrics in action, watch our Dev Box on-demand session at Ignite 2024.
+
+Get the performance and resilience of a like-local developer experience
+Our goal with Dev Box has always been to deliver the best experience possible for developers and continue finding new ways to enhance the usability and performance of the service. Already, Dev Box is available in 21 regions around the globe, ensuring developers get a highly responsive experience wherever they are in the world.
+
+Region selection optimization in dev box creation, coming soon, is one way Dev Box delivers a smooth like-local experience to developers. This feature recommends an optimal region based on a developer’s location to keep latency low. On top of this, new Visual Studio RDP optimizations can help deliver improved typing responsiveness for developers coding with Visual Studio or Visual Studio Code in Dev Box.
+
+Image Region Selection Optimization, image
+
+In addition to improving performance, we also continue to streamline the getting-started experience in Dev Box for developers. Earlier this year, we announced that developers can start coding faster and with less hassle through single sign-on for Dev Box login credentials. Now, we’ve also created a new landing page and welcome tour in the dev portal to help developers learn how to use Dev Box, discover key features, and quickly take full advantage of the service.
+
+Image Welcome, image
+
+Finally, if you’ve been following our Dev Box journey, you’ll know we’re dramatically expanding our Dev Box usage at Microsoft. Today, we have over 35,000 developers using Dev Box internally alone, 65% of whom are using Dev Box as their primary machine. We are seeing the benefits of team-based customizations and image management, with over 400 images already created across 200 projects.
+
+Beyond VDI—future-ready workstations for innovative app development
+From what we’ve seen internally and with customers, we’re optimistic about Dev Box’s potential to meet the evolving needs of developers and admins with productive, secure cloud development environments. And, as we continue to innovate and make Dev Box as powerful and reliable as possible, we are committed to lowering the barriers to adoption so that everyone can tap into the benefits available with Dev Box.
