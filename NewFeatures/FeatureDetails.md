@@ -10,11 +10,11 @@ In contrast, Dev Box breaks from the status quo to empower developers to take a 
 
 Team customizations enable dev team leads to easily create ready-to-code Dev Box configurations for their entire team—they just write a configuration file once and everyone benefits. Once a dev box is created, team members can start coding immediately.
 
-![Team Customizations Image](Image_TC.png)
+![Dev Box Video](https://devblogs.microsoft.com/develop-from-the-cloud/wp-content/uploads/sites/81/2024/11/IM.gif)
 
 But Dev Box goes even further to help dev teams scale and support the most demanding, wide-ranging development needs. Dev Box imaging now enables dev team leads to convert team customizations directly into images for even faster deployment.
 
-![Dev Box Imaging](Image_IM.png)
+![Dev Box Video](https://devblogs.microsoft.com/develop-from-the-cloud/wp-content/uploads/sites/81/2024/11/IM.gif)
 
 Dev Box also now enables development teams to leverage new native support for Winget, Desired State Configuration (DSC), and PowerShell when using team customizations, speeding up the time to install and configure development environments.
 
