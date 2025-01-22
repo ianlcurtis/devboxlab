@@ -3,12 +3,6 @@
   <h1>Microsoft Dev Box Lab</h1>
 </div>
 
-<style>
-  summary {
-    cursor: pointer; /* Changes the mouse pointer to a hand */
-  }
-</style>
-
 ## Overview
 The following lab guide is broken down into the tasks required by each persona that plays a role in the lifecycle of Microsoft Dev Box. 
 To complete the entire series of labs you must complete each persona's tasks. We will be using the Azure portal to provision the Azure services as a learning exercise. In a real-world scenario this would be done through Infrastructure as Code (IaC).
