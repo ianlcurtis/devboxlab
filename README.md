@@ -41,11 +41,9 @@ This is the structure we will be building. It represents a UK HQ'd organisation 
 
   - [Attach the network connection](#attach-the-network-connection)
 
-  - [Preparing a custom Dev Box image](#preparing-a-custom-dev-box-image)
-
   - [Create a base Dev Box definition with a built-in VM image](#create-a-base-dev-box-definition-with-a-built-in-vm-image)
 
-  - [Create a Dev Box definition with a custom VM image](#create-a-dev-box-definition-with-a-custom-vm-image)
+  - [Create a custom Dev Box definition with VM Image Builder](#Create-a-custom-Dev-Box-definition-with-VM-Image-Builder)
 
   - [Assign permissions to the other two personas](#assign-permissions-to-the-other-two-personas)
 
@@ -122,9 +120,9 @@ Please perform the following steps as your **global administrator account**. The
 
 The next step is to create a range of resources that we will need so our Dev Manager can create Projects which will in turn enable their developers to spin up Dev Boxes.
 
-### Create a virtual network 
+### Create a virtual network for UK and India Dev teams
 <details>
-  <summary>TASK: Create a Virtual Network resource called "uk-vnet" inside a resource group named "dev-center-network" in uksouth (or your preferred region).</summary>
+  <summary>TASK: Create a Virtual Network resource called "uk-vnet" inside a resource group named "dev-center-network" in uksouth. Do the same for "india-vnet" in centralindia</summary>
 
 -   In the Azure Portal go to the "Create a resource" menu which can be
     found by clicking the menu button in the top left corner of the
@@ -169,16 +167,15 @@ You can find the latest regional availability [here](https://aka.ms/devbox/regio
 <div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image7.png" width="50%" /></div>
 
 -   For the purposes of the demo environment that we are creating we can leave all other options as they are and click **"Review & Create".**
-
 -   Confirm the details and start the deployment.
+-   Do the same for the Indian Dev team creating a vnet called "india-vnet" in India Central.
 </details>
 
 ### Create a network connection
 <details>
-  <summary>TASK: Create a Network Connection resource called "uk-con" with *Azure active directory join* enabled inside a resource group named "dev-center-core" attached to the Virtual Network previously created.</summary>
+  <summary>TASK: Create a Network Connection resource called "uk-con" with *Azure active directory join* enabled inside a resource group named "dev-center-core" attached to the Virtual Network previously created. Do the same for an "india-con" Network Connection</summary>
 
-Once the network is deployed, we need to create a network connection
-that we'll be able to leverage for our dev boxes.
+Once the network is deployed, we need to create a network connection that we'll be able to leverage for our dev boxes.
 
 -   In the Azure Portal, **go back to the "Create a resource" blade** and search for "Network Connection". Once you find the "Network connection" resource, click **Create**.
 
@@ -195,6 +192,7 @@ that we'll be able to leverage for our dev boxes.
 <div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image9.png" width="50%" /></div>
 
 -   Click **"Review & Create"** and confirm the deployment by clicking **"Create"**.
+-   Do the same for the Indian Dev team creating a connection called "india-con" in India Central.
 </details>
 
 ### Create a Dev Center
@@ -215,11 +213,11 @@ In the Azure Portal, **go back to the "Create a resource" blade** and in the sea
 
 -   After a few moments the Dev center resource should appear in the Azure portal. Navigate to the **"dev-center-core"** resource group to find it.
 
-### Attach the network connection
+### Attach the network connections
 
 -   Once the dev center resource appears in the resource group select it to bring up its resource blade.
 
--   To attach your network connection, select **"Networking"**, then click **"Add network connection"** and **select the network connection** resource that you created in the previous task. Click the **"Add"** button.
+-   To attach your network connections, select **"Networking"**, then click **"Add network connection"** and **select the network connection** resource that you created in the previous task. Click the **"Add"** button.
 
 <div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image12.png" width="50%" /></div>
 
@@ -227,82 +225,8 @@ In the Azure Portal, **go back to the "Create a resource" blade** and in the sea
 
 <div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image13.png" width="50%" /></div>
 
+-   Repeat the process for both UK and India Network Connections.
 -   The Dev center now knows how to connect new Dev Boxes to your Azure virtual network. Next, we need to create dev box definitions.
-</details>
-
-### Prepare a custom Dev Box image
-
-While Microsoft Dev Box offers a growing library of images for you to use, many scenarios may require you to bring a custom image.
-
-<details>
-  <summary>TASK: Create a Virtual Machine resource from the "Windows 11 Pro, version 24H2 - Gen2" base image inside a resource group called "image-capture".</summary>
-
-In this section we will run through the **basic steps to capture a custom image**, which we'll then store in an **Azure Compute Gallery** from where our Dev Center will be able to access it.
-
--   In the Azure Portal, go back to the **"Create a resource"** blade and search for **"Virtual Machine".**
--   Select the **"Virtual Machine"** icon and hit **"Create"**
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image14.png" width="50%" /></div>
-
--   In the next screen:
-    -   Set the target resource group to be a new resource group called **"image-capture"**.
-    -   Name the machine **"win11"**.
-    -   Set the region to be the same as your chosen region.
-    -   Set **No infrastructure redundancy** and **Standard security**.
-    -   Select the **Windows 11 Pro, version 24H2 - Gen2** image from the dropdown. We will install our chosen custom software shortly.
-    -   Select a small compute option.
-    -   Create a username and password (keep these for later).
-    -   Check the licensing confirmation
-    -   Confirm all selections and create the virtual machine.
-> **Note:** Make sure you select the x64 Gen 2 flavour of the image and not x64 Gen 1, otherwise you will run into issues later in the lab.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image15.png" width="50%" /></div>
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image16.png" width="50%" /></div>
-</details>
-
-<details>
-  <summary>TASK: Run the sysprep utility on the Virtual Machine choosing the "Out-of-Box Experience" to generalize the image, ready for capture.</summary>
-
-Once the deployment is complete head to the new resource group and select the virtual machine.
--   Once on the VM resource blade **choose the option to connect** or copy the IP address into your RDP client.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image17.png" width="50%" /></div>
-
--   Use the credentials that you set in the Create blade earlier and wait for the login process to complete.
--   We will now proceed to creating a custom image from this VM:
-    -   Once in Windows 11 on the remote machine, open the start menu and type "Run" in the search bar.
-    -   Select the **"Run"** application and type **"sysprep"** into it to navigate to the sysprep folder.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image19.png" width="25%" /></div>
-
-  -   Right-click the **sysprep application** and choose **"Run as administrator"**
-  -   In sysprep use the following options
-      -   Choose **"Enter System Out-of-Box Experience**" in the cleanup action dropdown
-      -   Tick **"Generalize"**
-      -   Choose **"Shutdown"** in the shutdown options dropdown
-
-Sysprep will now get to work and eventually shut the machine down. Once that happens the machine is generalized and ready to be converted into a custom VM image.
-
-> **Note:** We are generalizing a newly deployed machine to accelerate this part of the lab. When creating an image yourself you would usually install additional software or make other changes to the image to further customize the experience of the end user.
-
-With the remote session now closed you will find yourself back in your browser window.
-</details>
-
-<details>
-  <summary>TASK: Capture the generalized image, making the "dev-center-core" resource group the destination.</summary>
-
--   Refresh the browser window to ensure that your machine's status says "Stopped", then click the **"Capture"** icon to start capturing an image.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image21.png" width="50%" /></div>
-
--   Because we have not yet created an Azure Compute Gallery for our custom image, we need to go for **"only a managed image"** in the next blade
--   We also want to make sure we select our **"dev-center-core" resource group** as a destination for the image.
--   Choose not to delete the VM for now. **We will ask you to delete it and its resource group later in this lab.**
--   Confirm the creation of the image by clicking **"Review + create"** and confirming the configuration.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image22.png" width="50%" /></div>
-
-Creating the image will take a few minutes to complete. While you are waiting, you can move to the next step where we will create a Dev Box definition with a built-in VM image, before returning to our custom image.
 </details>
 
 ### Create a base Dev Box definition with a built-in VM image 
@@ -325,99 +249,17 @@ Creating the image will take a few minutes to complete. While you are waiting, y
 -   Once back on the main blade the **"Image Status"** may show as "pending" for a few moments but should soon update to "No errors found"
 </details>
 
-### Create a Dev Box definition with a custom VM image 
-> **Note:** you can only complete this step once the custom image has been created in your **dev-center-core** resource group.
+### Create a custom Dev Box definition with VM Image Builder 
+Creating custom VM images manually or with other tools can be difficult and unreliable. VM Image Builder, which is built on HashiCorp Packer, offers the advantages of a managed service.
+
+To create a VM image definition in a Compute Gallery follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/how-to-customize-devbox-azure-image-builder).
 
 <details>
-  <summary>TASK: Create a user-assigned managed identity in the dev-center-core resource group.</summary>
-
-In this step we will add our managed image to a new Azure Compute gallery so that we can use it with Microsoft Dev Box. To allow our Dev Center to manage images independently we need to also assign a Managed Identity to the resource.
-
-You will need to create a **user-assigned managed identity** resource for your **"DevCenter-Core"** resource group. This managed identity resource is used to allow the Dev Center to manage images in the collection that we'll attach to it in an upcoming step.
-
--   Navigate back to the **"dev-center-core"** resource group.
--   Open the **"Create"** menu and type "User assigned", then select the "User Assigned Managed Identity" resource and choose **"Create".**
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image24.png" width="50%" /></div>
-
--   Call the resource **"dev-center-id"** and place it in the **dev-center-core** resource group.
--   Set the region to your chosen region.
--   Choose the **"Review + Create"** option and **confirm the creation** of the resource.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image25.png" width="50%" /></div>
-</details>
-
-<details>
-  <summary>TASK: Assign the previously created identity to the Dev Center resource.</summary>
+  <summary>TASK: Attach the Compute Gallery containing the custom image to Dev Center, and create a Dev Box definition</summary>
 
 -   Return to the **"dev-center-core"** resource group in the Azure Portal and select your Dev Center resource.
--   Select **"Identity**" in the side bar and then select the **"User assigned"** tab and click **"Add"**
--   Select the managed identity object that you created at the start of this task, then select **"Add"**.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image26.png" width="50%" /></div>
-</details>
-
-<details>
-  <summary>TASK: Create an Azure Compute Gallery and add the VM image definition captured previously. Ensure that security type is "Trusted Launch". Add a version.</summary>
-
-In order to use our custom image that we created previously with our **Dev Center** we need to place it in an **Azure Compute Gallery**.
-
--   In the Azure Portal open the **"Create"** menu once again and search for **"Compute Gallery".**
--   Select **"Create"** to start creating your compute gallery.
--   Call the gallery resource **"computegallery"** and choose the **"dev-center-core"** resource group.
--   Ensure that you are still using **the same Azure region** that you have been using throughout the lab.
--   Finally click **"Review and Create"** and **confirm the creation of the resource**. It will take a few moments for the compute gallery to show up in the resource group.
--   Once the deployment completes **go to its resource blade**, where we'll add the image.
--   Once on the resource blade, select **"Add"** and then select **"VM image definition"** to start the process of adding an image.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image28.png" width="50%" /></div>
-
--   In the creation blade, choose "**customDevImage"** as the definition name.
--   Ensure that you **maintain the same Azure region where your image is located**.
--   Ensure that you have chosen **"Windows" as the platform**. Dev Box does not support Linux images.
--   You must configure the security type as **"Trusted Launch"** for compatibility reasons but can pick all other options based on your personal preference.
--   The image has been **generalized** for you and the **architecture** to pick is **x64**.
--   You can come up with **your own values for "Publisher", "Offer" and "SKU".** You use these values to search for your image in large galleries and to provision machines programmatically. An example might be: the publisher **"Microsoft"**, releases their **"Windows"** offer of the SKU **"Developer-Win11-VSCode"**
--   Once you are done **confirm all dialogues and create the definition**.
-
-> **Note:** The underlying Windows 365 platform requires all image definitions to use "Trusted Launch" as their security type.
-
-It will take a few moments for this process to complete.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image29.png" width="50%" /></div>
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image292.png" width="50%" /></div>
-
--   Once your definition has been created return to the **resource blade** of the compute gallery.
-
--   Select the **"Definitions"** tab where your definition should now show up.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image30.png" width="50%" /></div>
-
--   Click the name of the definition which will take you to the **definition's blade.**
--   Once on the blade choose the option to **"Add version"**
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image31.png" width="50%" /></div>
-
--   You will land on another blade where you can add your managed image. To do this, select **"Managed Image"** for the **Source**. You should then be able to **pick the image you created** earlier as the **"Source Image"**
--   **Pick a version number** for the image. It can be any version number, for example: "1.0.0"
--   Confirm by clicking **"Review and Create"** and **confirming the creation**.
--   This process will take a few minutes and the image version will eventually show up in the "versions" tab of the image definition blade.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image32.png" width="50%" /></div>
-</details>
-
-<details>
-  <summary>TASK: Add the Azure Compute Gallery to the Dev Center and create a Dev Box definition for both the custom image and the built-in image.</summary>
-
-While we wait for this process to complete, we can start creating dev box definitions that leverage both our custom and the built-in images.
-The first step will be to make our Dev Center aware of our custom image gallery.
-
--   Return to the **"dev-center-core"** resource group in the Azure Portal and select your Dev Center resource.
--   First select **"Azure Compute Galleries"** in the side bar and use the **"Add compute gallery"** button to add the gallery you just created.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image33.png" width="50%" /></div>
-
--   To create a second Dev Box definition, select **"Dev box definitions"** in the side bar.
+-   Open the **"Azure compute galleries"** blade, click the **"Add"** button, and select the Compute Gallery named "devboxGallery" created in the mslearn above.
+-   To create a Dev Box definition, now select **"Dev box definitions"** in the side bar.
 -   Select the **"Create"** option in the blade that appears.
 -   We will call this definition the **"custom-vscode"** definition.
 -   Click **"See all images"** to make sure the custom image you just added is in the list. **Select it by clicking its name** and confirming with the **"Select"** button.
@@ -429,17 +271,14 @@ The first step will be to make our Dev Center aware of our custom image gallery.
 <div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image341.png" width="50%" /></div>
 
 -   Wait a few moments while the image is analyzed and confirm that it moves from **"Pending"** to the **"Succeeded/No Errors"** state.
--   Now that your definition has been created, you can delete the resource group where you spun up the VM used to capture the custom image.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image34.png" width="50%" /></div>
 </details>
 
 ### Assign permissions to the other two personas
 
-As a final step in this lab, we will give permissions to our Dev Manager account to manage the project that they are working on. We will also give our Developer the ability to create Dev Boxes for this project and create a deployment target for them to use later.
+As a final step in this lab, we will give permissions to our Dev Manager account to manage the projects that they are working on. We will also give our Developer the ability to create Dev Boxes for both projects and create a deployment target for them to use later.
 
 <details>
-  <summary>TASK: Create a Project resource in the Dev Center. Assign Adele the "DevCenter Project Admin" role, and Alex the "DevCenter Dev Box User" role. Give both users the "Reader" role.</summary>
+  <summary>TASK: Create a Project resource called "Project A" in the Dev Center. Assign Adele the "DevCenter Project Admin" role, and Alex the "DevCenter Dev Box User" role. Give both users the "Reader" role. Repeat for "Project B"</summary>
 
 -   Return to the **"dev-center-core"** resource group in the Azure Portal and select your Dev Center resource.
 -   On the "Overview" blade select the **"Create Project"** button
@@ -451,33 +290,32 @@ As a final step in this lab, we will give permissions to our Dev Manager account
 
 <div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image37.png" width="50%" /></div>
 
-Once the project is created, we need to assign roles to it.
+Once the projects are created, we need to assign roles to them.
 
--   Return to the **"dev-center-core"** resource group in the Azure Portal and select the newly created *project* resource.
+-   Return to the **"dev-center-core"** resource group in the Azure Portal and select the newly created *Project A* resource.
 -   You can either select the **"Set project access - Edit access"** button on the **"Overview"** blade or select **"Access Control (IAM)"** in the side bar.
 
 <div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image38.png" width="50%" /></div>
 
--   Assign the "Development Manager" (Adele) the **"DevCenter Project Admin"** role and the **"Owner"** role by going to the **"Role Assignment"** tab and picking the roles and then selecting her user identity. You can use Option 1 or 2 to access the assignment screens.
+-   Assign the "Development Manager" (Adele) the **"DevCenter Project Admin"** role and the **"Owner"** role by going to the **"Role Assignment"** tab and picking the roles and then selecting her user identity.
+
+> **Note**: The reason why we add the "**Owner**" role here is to allow the "Development Manager (Adele)" to add a developer in the team to a Dev Box Project as a "dev box user" role.  [Here](https://learn.microsoft.com/en-us/azure/dev-box/how-to-manage-dev-box-projects#permissions) is the reference to the permissions required to manage a dev box project.
 
 <div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image39.png" width="50%" /></div>
-
-**Note**: The reason why we add the "**Owner**" role here is to allow the "Development Manager (Adele)" to add a developer in the team to a Dev Box Project as a "dev box user" role.  [Here](https://learn.microsoft.com/en-us/azure/dev-box/how-to-manage-dev-box-projects#permissions) is the reference to the permissions required to manage a dev box project.
 
 <div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image58.png" width="50%" /></div>
 
 -   Follow the same steps to give the "Developer" (Alex) the **"DevCenter Dev Box User"** role and the **"Reader"** role on the project resource.
-
-<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image40.png" width="50%" /></div>
+-   Repeat these steps for *Project B*. 
 </details>
 
 <details>
-  <summary>TASK: Create a resource group named "Deployment-Target" and assign roles to make Adele the "Owner", and Alex a "Contributor".</summary>
+  <summary>TASK: Create a resource group named "dev-center-deployment-target" and assign roles to make Adele the "Owner", and Alex a "Contributor".</summary>
 Finally, we also want to create a target environment for deployment via the dev box at a later stage.
 
--   Use the **"Create"** menu to create a new resource group called **"Deployment-Target"**
+-   Use the **"Create"** menu to create a new resource group called **"dev-center-deployment-target"**
 
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image41.png" width="50%" /></div>
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image41.png" width="50%" /></div>
 
 -   Continue to use the same region as before
 -   Once the resource group is deployed, access its blade via the portal and go to the **"Access Control (IAM)"** pane via the side bar.
@@ -494,7 +332,7 @@ Finally, we also want to create a target environment for deployment via the dev 
 
 The steps in this lab will take you about 15 minutes to complete.
 
-We recommend that you remain logged in as the Admin account in your main browser window and open a separate "Incognito"/ "InPrivate" window to perform the upcoming actions as the "Development Manager" (Adele) persona.
+> We recommend that you remain logged in as the Admin account in your main browser window and open a separate "Incognito"/ "InPrivate" window to perform the upcoming actions as the "Development Manager" (Adele) persona.
 
 -   Using the credentials that you noted down in the previous lab, **log into the Azure Portal as the "Development Manager"** and perform any tasks necessary to reset your password.
 
@@ -620,6 +458,190 @@ deployment from Visual Studio.
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image57.png" width="75%" /></div>
 
 This lab is now complete.
+
+### Prepare a custom Dev Box image
+
+While Microsoft Dev Box offers a growing library of images for you to use, many scenarios may require you to bring a custom image.
+
+<details>
+  <summary>TASK: Create a Virtual Machine resource from the "Windows 11 Pro, version 24H2 - Gen2" base image inside a resource group called "image-capture".</summary>
+
+In this section we will run through the **basic steps to capture a custom image**, which we'll then store in an **Azure Compute Gallery** from where our Dev Center will be able to access it.
+
+-   In the Azure Portal, go back to the **"Create a resource"** blade and search for **"Virtual Machine".**
+-   Select the **"Virtual Machine"** icon and hit **"Create"**
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image14.png" width="50%" /></div>
+
+-   In the next screen:
+    -   Set the target resource group to be a new resource group called **"image-capture"**.
+    -   Name the machine **"win11"**.
+    -   Set the region to be the same as your chosen region.
+    -   Set **No infrastructure redundancy** and **Standard security**.
+    -   Select the **Windows 11 Pro, version 24H2 - Gen2** image from the dropdown. We will install our chosen custom software shortly.
+    -   Select a small compute option.
+    -   Create a username and password (keep these for later).
+    -   Check the licensing confirmation
+    -   Confirm all selections and create the virtual machine.
+> **Note:** Make sure you select the x64 Gen 2 flavour of the image and not x64 Gen 1, otherwise you will run into issues later in the lab.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image15.png" width="50%" /></div>
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image16.png" width="50%" /></div>
+</details>
+
+<details>
+  <summary>TASK: Run the sysprep utility on the Virtual Machine choosing the "Out-of-Box Experience" to generalize the image, ready for capture.</summary>
+
+Once the deployment is complete head to the new resource group and select the virtual machine.
+-   Once on the VM resource blade **choose the option to connect** or copy the IP address into your RDP client.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image17.png" width="50%" /></div>
+
+-   Use the credentials that you set in the Create blade earlier and wait for the login process to complete.
+-   We will now proceed to creating a custom image from this VM:
+    -   Once in Windows 11 on the remote machine, open the start menu and type "Run" in the search bar.
+    -   Select the **"Run"** application and type **"sysprep"** into it to navigate to the sysprep folder.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image19.png" width="25%" /></div>
+
+  -   Right-click the **sysprep application** and choose **"Run as administrator"**
+  -   In sysprep use the following options
+      -   Choose **"Enter System Out-of-Box Experience**" in the cleanup action dropdown
+      -   Tick **"Generalize"**
+      -   Choose **"Shutdown"** in the shutdown options dropdown
+
+Sysprep will now get to work and eventually shut the machine down. Once that happens the machine is generalized and ready to be converted into a custom VM image.
+
+> **Note:** We are generalizing a newly deployed machine to accelerate this part of the lab. When creating an image yourself you would usually install additional software or make other changes to the image to further customize the experience of the end user.
+
+With the remote session now closed you will find yourself back in your browser window.
+</details>
+
+<details>
+  <summary>TASK: Capture the generalized image, making the "dev-center-core" resource group the destination.</summary>
+
+-   Refresh the browser window to ensure that your machine's status says "Stopped", then click the **"Capture"** icon to start capturing an image.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image21.png" width="50%" /></div>
+
+-   Because we have not yet created an Azure Compute Gallery for our custom image, we need to go for **"only a managed image"** in the next blade
+-   We also want to make sure we select our **"dev-center-core" resource group** as a destination for the image.
+-   Choose not to delete the VM for now. **We will ask you to delete it and its resource group later in this lab.**
+-   Confirm the creation of the image by clicking **"Review + create"** and confirming the configuration.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image22.png" width="50%" /></div>
+
+Creating the image will take a few minutes to complete. While you are waiting, you can move to the next step where we will create a Dev Box definition with a built-in VM image, before returning to our custom image.
+</details>
+
+### Create a Dev Box definition with a custom VM image 
+> **Note:** you can only complete this step once the custom image has been created in your **dev-center-core** resource group.
+
+<details>
+  <summary>TASK: Create a user-assigned managed identity in the dev-center-core resource group.</summary>
+
+In this step we will add our managed image to a new Azure Compute gallery so that we can use it with Microsoft Dev Box. To allow our Dev Center to manage images independently we need to also assign a Managed Identity to the resource.
+
+You will need to create a **user-assigned managed identity** resource for your **"DevCenter-Core"** resource group. This managed identity resource is used to allow the Dev Center to manage images in the collection that we'll attach to it in an upcoming step.
+
+-   Navigate back to the **"dev-center-core"** resource group.
+-   Open the **"Create"** menu and type "User assigned", then select the "User Assigned Managed Identity" resource and choose **"Create".**
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image24.png" width="50%" /></div>
+
+-   Call the resource **"dev-center-id"** and place it in the **dev-center-core** resource group.
+-   Set the region to your chosen region.
+-   Choose the **"Review + Create"** option and **confirm the creation** of the resource.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image25.png" width="50%" /></div>
+</details>
+
+<details>
+  <summary>TASK: Assign the previously created identity to the Dev Center resource.</summary>
+
+-   Return to the **"dev-center-core"** resource group in the Azure Portal and select your Dev Center resource.
+-   Select **"Identity**" in the side bar and then select the **"User assigned"** tab and click **"Add"**
+-   Select the managed identity object that you created at the start of this task, then select **"Add"**.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image26.png" width="50%" /></div>
+</details>
+
+<details>
+  <summary>TASK: Create an Azure Compute Gallery and add the VM image definition captured previously. Ensure that security type is "Trusted Launch". Add a version.</summary>
+
+In order to use our custom image that we created previously with our **Dev Center** we need to place it in an **Azure Compute Gallery**.
+
+-   In the Azure Portal open the **"Create"** menu once again and search for **"Compute Gallery".**
+-   Select **"Create"** to start creating your compute gallery.
+-   Call the gallery resource **"computegallery"** and choose the **"dev-center-core"** resource group.
+-   Ensure that you are still using **the same Azure region** that you have been using throughout the lab.
+-   Finally click **"Review and Create"** and **confirm the creation of the resource**. It will take a few moments for the compute gallery to show up in the resource group.
+-   Once the deployment completes **go to its resource blade**, where we'll add the image.
+-   Once on the resource blade, select **"Add"** and then select **"VM image definition"** to start the process of adding an image.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image28.png" width="50%" /></div>
+
+-   In the creation blade, choose "**customDevImage"** as the definition name.
+-   Ensure that you **maintain the same Azure region where your image is located**.
+-   Ensure that you have chosen **"Windows" as the platform**. Dev Box does not support Linux images.
+-   You must configure the security type as **"Trusted Launch"** for compatibility reasons but can pick all other options based on your personal preference.
+-   The image has been **generalized** for you and the **architecture** to pick is **x64**.
+-   You can come up with **your own values for "Publisher", "Offer" and "SKU".** You use these values to search for your image in large galleries and to provision machines programmatically. An example might be: the publisher **"Microsoft"**, releases their **"Windows"** offer of the SKU **"Developer-Win11-VSCode"**
+-   Once you are done **confirm all dialogues and create the definition**.
+
+> **Note:** The underlying Windows 365 platform requires all image definitions to use "Trusted Launch" as their security type.
+
+It will take a few moments for this process to complete.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image29.png" width="50%" /></div>
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image292.png" width="50%" /></div>
+
+-   Once your definition has been created return to the **resource blade** of the compute gallery.
+
+-   Select the **"Definitions"** tab where your definition should now show up.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image30.png" width="50%" /></div>
+
+-   Click the name of the definition which will take you to the **definition's blade.**
+-   Once on the blade choose the option to **"Add version"**
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image31.png" width="50%" /></div>
+
+-   You will land on another blade where you can add your managed image. To do this, select **"Managed Image"** for the **Source**. You should then be able to **pick the image you created** earlier as the **"Source Image"**
+-   **Pick a version number** for the image. It can be any version number, for example: "1.0.0"
+-   Confirm by clicking **"Review and Create"** and **confirming the creation**.
+-   This process will take a few minutes and the image version will eventually show up in the "versions" tab of the image definition blade.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image32.png" width="50%" /></div>
+</details>
+
+<details>
+  <summary>TASK: Add the Azure Compute Gallery to the Dev Center and create a Dev Box definition for both the custom image and the built-in image.</summary>
+
+While we wait for this process to complete, we can start creating dev box definitions that leverage both our custom and the built-in images.
+The first step will be to make our Dev Center aware of our custom image gallery.
+
+-   Return to the **"dev-center-core"** resource group in the Azure Portal and select your Dev Center resource.
+-   First select **"Azure Compute Galleries"** in the side bar and use the **"Add compute gallery"** button to add the gallery you just created.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image33.png" width="50%" /></div>
+
+-   To create a second Dev Box definition, select **"Dev box definitions"** in the side bar.
+-   Select the **"Create"** option in the blade that appears.
+-   We will call this definition the **"custom-vscode"** definition.
+-   Click **"See all images"** to make sure the custom image you just added is in the list. **Select it by clicking its name** and confirming with the **"Select"** button.
+-   Select the **"latest"** image version
+-   Select **8 vCPUs and 32 GB of RAM**
+-   Select the **smallest storage option** to keep costs lower
+-   Finally click **"Create"**
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image341.png" width="50%" /></div>
+
+-   Wait a few moments while the image is analyzed and confirm that it moves from **"Pending"** to the **"Succeeded/No Errors"** state.
+-   Now that your definition has been created, you can delete the resource group where you spun up the VM used to capture the custom image.
+
+<div style="text-align: left; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image34.png" width="50%" /></div>
+</details>
 
 # Lab 4 - Clean-Up
 
