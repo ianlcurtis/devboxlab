@@ -30,8 +30,6 @@ Feel free to adapt this scenario to match your use case!
 
 - [Lab 1 IT Admin Persona](#lab-1-it-admin-persona)
 
-  - [Create base resources](#create-base-resources)
-
   - [Create a virtual network](#create-a-virtual-network)
 
   - [Create a network connection](#create-a-network-connection)
@@ -44,7 +42,7 @@ Feel free to adapt this scenario to match your use case!
 
   - [Create a custom Dev Box definition with VM Image Builder](#Create-a-custom-Dev-Box-definition-with-VM-Image-Builder)
 
-  - [Assign permissions to the other two personas](#assign-permissions-to-the-other-two-personas)
+  - [Assign permissions to the Dev Manager and Developer personas](#Assign-permissions-to-the-Dev-Manager-and-Developer-personas)
 
 - [Lab 2 Development Manager Persona](#lab-2-development-manager-persona)
 
@@ -54,7 +52,7 @@ Feel free to adapt this scenario to match your use case!
 
   - [Use a Dev Box for a simple deployment with Visual Studio](#use-a-dev-box-for-a-simple-deployment-with-visual-studio)
 
-- [Lab 4 Customisations](#lab-4-customisations) 
+- [Lab 4 Incorporate Customisations](#lab-4-incorporate-customisations) 
 
 - [Lab 5 Create a custom Dev Box definition with a VM Image](#lab-5-Create-a-custom-Dev-Box-definition-with-a-VM-Image)
 
@@ -119,11 +117,9 @@ Please work through the below steps before starting the first lab.
 
 Please perform the following steps as your **global administrator account**. The steps in this lab will take you about 45 minutes to 1 hour to complete.
 
-## Create base resources
-
 The first step is to create a range of resources that we will need so our Dev Manager can create Projects which will in turn enable their developers to spin up Dev Boxes.
 
-### Create a virtual network for UK and India Dev teams
+## Create a virtual network for UK and India Dev teams
 <details>
   <summary>TASK: Create a Virtual Network resource called "uk-vnet" inside a resource group named "dev-center-network" in uksouth. Do the same for "india-vnet" in centralindia</summary>
 
@@ -168,7 +164,7 @@ You can find the latest regional availability [here](https://aka.ms/devbox/regio
 -   Repeat this for the Indian Dev team creating a vnet called "india-vnet" in *India Central*.
 </details>
 
-### Create a network connection
+## Create a network connection
 <details>
   <summary>TASK: Create a Network Connection resource called "uk-con" with *Azure active directory join* enabled inside a resource group named "dev-center-core" attached to the Virtual Network previously created. Do the same for an "india-con" Network Connection</summary>
 
@@ -192,7 +188,7 @@ Once the network is deployed, we need to create network connections that we'll b
 -   Repeat this for the Indian Dev team creating a connection called **"india-con"** attaching it to the *India-vnet* vnet.
 </details>
 
-### Create a Dev Center
+## Create a Dev Center
 <details>
   <summary>TASK: Create a Dev Center resource called "dev-center-uk01" inside the "dev-center-core" resource group, and attach the previously created Network Connection.</summary>
 
@@ -210,7 +206,7 @@ In the Azure Portal, **go back to the "Create a resource" blade** and in the sea
 
 -   After a few moments the Dev center resource should appear in the Azure portal. Navigate to the **"dev-center-core"** resource group to find it.
 
-### Attach the network connections
+## Attach the network connections
 
 -   Once the dev center resource appears in the resource group select it to bring up its resource blade.
 
@@ -226,7 +222,7 @@ In the Azure Portal, **go back to the "Create a resource" blade** and in the sea
 -   The Dev center now knows how to connect new Dev Boxes to your Azure virtual network. Next, we need to create dev box definitions.
 </details>
 
-### Create a Dev Box definition with a built-in VM image 
+## Create a Dev Box definition with a built-in VM image 
 <details>
   <summary>TASK: In the Dev Center resource, create a "Windows 11 Enterprise + Microsoft 365 Apps 21H2" Dev Box definition with 8vCPUs and 256GB RAM.</summary>
 
@@ -246,7 +242,7 @@ In the Azure Portal, **go back to the "Create a resource" blade** and in the sea
 -   Once back on the main blade the **"Image Status"** may show as "pending" for a few moments but should soon update to "No errors found"
 </details>
 
-### Create a custom Dev Box definition with VM Image Builder 
+## Create a custom Dev Box definition with VM Image Builder 
 Creating custom VM images manually or with other tools can be difficult and unreliable. VM Image Builder, which is built on HashiCorp Packer, offers the advantages of a managed service.
 
 To create a VM image definition in a Compute Gallery follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/how-to-customize-devbox-azure-image-builder).
@@ -270,7 +266,7 @@ To create a VM image definition in a Compute Gallery follow the instructions in 
 -   Wait a few moments while the image is analyzed and confirm that it moves from **"Pending"** to the **"Succeeded/No Errors"** state.
 </details>
 
-### Assign permissions to the other two personas
+## Assign permissions to the Dev Manager and Developer personas
 
 As a final step in this lab, we will give permissions to our Dev Manager account to manage the projects that they are working on. We will also give our Developer the ability to create Dev Boxes for both projects and create a deployment target for them to use later.
 
@@ -460,7 +456,7 @@ Next we will deploy the code directly from our Dev Box in VSCode to our *dev-cen
 
 **This lab is now complete!**
 
-# Lab 4 Customisations
+# Lab 4 Incorporate Customisations
 Getting developers started on a new project or team can be complex and time-consuming. The Microsoft Dev Box *customizations* feature helps you streamline setup of the developer environment.
 
 Individual developers can attach a YAML-based customization file when creating their dev box to control the development environment. Developers should use **individual customizations** only for personal settings and apps. Tasks specified in the individual customization file run only in the user context, after sign-in.
@@ -471,8 +467,10 @@ Although teams of developers can share common YAML files, this approach can be i
 
 > Note: The Dev Box team customizations feature is currently in preview
 
+## Create Team Customisations
 To create a dev box using team customisations follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/quickstart-team-customizations).
 
+## Create a Reusable Team Customisations Image
 Using a customization file simplifies the creation of dev boxes for your team. With dev box customizations, you can create a shared team customization by creating a file called an image definition. Creating a reusable image from this image definition optimizes customizations and saves time during dev box creation.
 
 To configure imaging for dev box team customisations follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/how-to-configure-customization-imaging).
@@ -554,7 +552,7 @@ With the remote session now closed you will find yourself back in your browser w
 Creating the image will take a few minutes to complete. While you are waiting, you can move to the next step where we will create a Dev Box definition with a built-in VM image, before returning to our custom image.
 </details>
 
-### Create the Dev Box definition 
+## Create the Dev Box definition 
 > **Note:** you can only complete this step once the custom image has been created in your **dev-center-core** resource group.
 
 <details>
