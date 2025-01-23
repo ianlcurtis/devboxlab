@@ -8,19 +8,19 @@ The following lab guide is broken down into the tasks required by each persona t
 To complete the entire series of labs you must complete each persona's tasks. We will be using the Azure portal to provision the Azure services as a learning exercise. In a real-world scenario this would be done through Infrastructure as Code (IaC).
 
 The three personas we cover are:
--   IT / Dev Infra Team Member (IT Admin)
--   Dev Team Lead (Development Manager)
--   Developer
+-   **IT / Dev Infra Team Member** (IT Admin)
+-   **Dev Team Lead** (Development Manager)
+-   **Developer**
 
-This is the structure we will be building. It represents a UK HQ'd organisation with developers in India and UK. The developers are building 2 projects:
-- *Project A* is developed by UK developers and requires VSCode.
-- *Project B* is developed by both UK and Indian developers and require M365 apps. 
+The diagram below outlines the structure we will be building. It represents an organisation, HQ'd in the UK, with developers in India and the UK. The developers are building 2 projects:
+- **Project A** is developed by UK developers and requires *VSCode*.
+- **Project B** is developed by both UK and Indian developers and requires *M365 apps*. 
 
-Feel free to adapt this to match your use case.
+Feel free to adapt this scenario to match your use case!
 
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/labplan.png" width="100%" /></div>
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/labplan.png" width="75%" /></div>
 
-> **Depending on the level of challenge you want, you can either follow the high-level tasks, or expand the detailed steps for some help. Have fun!**
+> **In the following labs, depending on the level of challenge you want, you can either follow the high-level tasks, or expand the detailed steps for some help. Have fun!**
 
 ## Contents
 
@@ -121,27 +121,21 @@ Please perform the following steps as your **global administrator account**. The
 
 ## Create base resources
 
-The next step is to create a range of resources that we will need so our Dev Manager can create Projects which will in turn enable their developers to spin up Dev Boxes.
+The first step is to create a range of resources that we will need so our Dev Manager can create Projects which will in turn enable their developers to spin up Dev Boxes.
 
 ### Create a virtual network for UK and India Dev teams
 <details>
   <summary>TASK: Create a Virtual Network resource called "uk-vnet" inside a resource group named "dev-center-network" in uksouth. Do the same for "india-vnet" in centralindia</summary>
 
--   In the Azure Portal go to the "Create a resource" menu which can be
-    found by clicking the menu button in the top left corner of the
-    screen and choosing "Create a resource"
-
--   Once in the menu search "Virtual Network" on the create pane as
-    shown. Click "Create"
+-   In the Azure Portal go to the "Create a resource" menu which can be found by clicking the menu button in the top left corner of the screen and choosing "Create a resource"
+-   Once in the menu search "Virtual Network" on the create pane as shown. Click "Create"
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image6.png" width="50%" /></div>
 
 -   Name the network resource **uk-vnet**  and create a new resource group called **"dev-center-network"**.
-
--   We want to keep all of our Dev Center resources **in one Azure Region** including the network to maximize the performance of our Dev Boxes.
-
--   Please **choose an Azure Region where Dev Box Dev Centers are available**.
-    At the time of writing the following Regions are suitable:
+-   We want to keep all of our core Dev Center resources **in one Azure Region** to maximize performance. For Dev Boxes we want to place them close to our developers in the UK and India. You'll see how this is done shortly.
+-   Select *UK South* as the location.
+    At the time of writing the following Regions are available:
 
     -   South Africa North
     -   East Asia
@@ -171,14 +165,14 @@ You can find the latest regional availability [here](https://aka.ms/devbox/regio
 
 -   For the purposes of the demo environment that we are creating we can leave all other options as they are and click **"Review & Create".**
 -   Confirm the details and start the deployment.
--   Do the same for the Indian Dev team creating a vnet called "india-vnet" in India Central.
+-   Repeat this for the Indian Dev team creating a vnet called "india-vnet" in *India Central*.
 </details>
 
 ### Create a network connection
 <details>
   <summary>TASK: Create a Network Connection resource called "uk-con" with *Azure active directory join* enabled inside a resource group named "dev-center-core" attached to the Virtual Network previously created. Do the same for an "india-con" Network Connection</summary>
 
-Once the network is deployed, we need to create a network connection that we'll be able to leverage for our dev boxes.
+Once the network is deployed, we need to create network connections that we'll be able to leverage for our dev boxes.
 
 -   In the Azure Portal, **go back to the "Create a resource" blade** and search for "Network Connection". Once you find the "Network connection" resource, click **Create**.
 
@@ -190,12 +184,12 @@ Once the network is deployed, we need to create a network connection that we'll 
 
 -   Ensure that **"Azure Active Directory join"** is selected
 
--   Call the connection **"uk-con"** and select the network that was created in the previous step
+-   Call the connection **"uk-con"** and select the UK network that was created in the previous step
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image9.png" width="50%" /></div>
 
 -   Click **"Review & Create"** and confirm the deployment by clicking **"Create"**.
--   Do the same for the Indian Dev team creating a connection called "india-con" in India Central.
+-   Repeat this for the Indian Dev team creating a connection called **"india-con"** attaching it to the *India-vnet* vnet.
 </details>
 
 ### Create a Dev Center
@@ -208,7 +202,7 @@ In the Azure Portal, **go back to the "Create a resource" blade** and in the sea
 
 -   Choose the existing **"dev-center-core"** resource group for your deployment and call it **"dev-center-uk01"**.
 
--   Select the Azure Region you used when creating the virtual network.
+-   Select *UK South* as the Azure region.
 
 -   Review the deployment and confirm its creation.
 
@@ -220,7 +214,7 @@ In the Azure Portal, **go back to the "Create a resource" blade** and in the sea
 
 -   Once the dev center resource appears in the resource group select it to bring up its resource blade.
 
--   To attach your network connections, select **"Networking"**, then click **"Add network connection"** and **select the network connection** resource that you created in the previous task. Click the **"Add"** button.
+-   To attach your network connections, select **"Networking"**, then click **"Add network connection"** and select the *uk-con* network connection resource that you created in the previous task. Click the **"Add"** button.
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image12.png" width="50%" /></div>
 
@@ -228,7 +222,7 @@ In the Azure Portal, **go back to the "Create a resource" blade** and in the sea
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image13.png" width="50%" /></div>
 
--   Repeat the process for both UK and India Network Connections.
+-   Repeat the process for the India Network Connection.
 -   The Dev center now knows how to connect new Dev Boxes to your Azure virtual network. Next, we need to create dev box definitions.
 </details>
 
@@ -479,7 +473,7 @@ Although teams of developers can share common YAML files, this approach can be i
 
 To create a dev box using team customisations follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/quickstart-team-customizations).
 
-Using a customization file simplifies the creation of dev boxes for your team. With dev box customizations, you can create a shared team customization by creating a file called an image definition. Creating a reusable image from this image definition optimizes customizations and saves time during dev box creation. In this article, you learn how to configure a pool to use an image definition and build reusable images for your development teams.
+Using a customization file simplifies the creation of dev boxes for your team. With dev box customizations, you can create a shared team customization by creating a file called an image definition. Creating a reusable image from this image definition optimizes customizations and saves time during dev box creation.
 
 To configure imaging for dev box team customisations follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/how-to-configure-customization-imaging).
 
@@ -678,7 +672,7 @@ a while.
 Return to your main browser window with your Admin account and **clear out any resources that you no longer need**.
 
 If you disabled any Azure AD security features to move through the lab quicker, **this is the time to re-enable them.**
-If you would like to keep resources deployed, ensure that you **stop the Dev Box instances via the Dev Box Portal** (in future instances will hibernate when unused, but this feature is not yet available).
+If you would like to keep resources deployed, ensure that you **stop the Dev Box instances via the Dev Box Portal**.
 
 **Thank you for completing the lab!**
 
