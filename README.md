@@ -28,7 +28,7 @@ Feel free to adapt this to match your use case.
 
   - [Designate your user accounts for this and future labs](#designate-your-user-accounts-for-this-and-future-labs)
 
-- [Lab 1 - IT Admin Persona](#lab-1-it-admin-persona)
+- [Lab 1 IT Admin Persona](#lab-1-it-admin-persona)
 
   - [Create base resources](#create-base-resources)
 
@@ -46,21 +46,21 @@ Feel free to adapt this to match your use case.
 
   - [Assign permissions to the other two personas](#assign-permissions-to-the-other-two-personas)
 
-- [Lab 2 - Development Manager Persona](#lab-2-development-manager-persona)
+- [Lab 2 Development Manager Persona](#lab-2-development-manager-persona)
 
-- [Lab 3 - Developer Persona](#lab-3-developer-persona)
+- [Lab 3 Developer Persona](#lab-3-developer-persona)
 
   - [Create a Dev Box](#create-a-dev-box)
 
   - [Use a Dev Box for a simple deployment with Visual Studio](#use-a-dev-box-for-a-simple-deployment-with-visual-studio)
 
-- [Lab 4 - Customisations](#Lab-4-Customisations) 
+- [Lab 4 Customisations](#lab-4-customisations) 
 
-- [Lab 5 - Create a custom Dev Box definition with a VM Image](#lab-4-Create-a-custom-Dev-Box-definition-with-a-VM-Image)
+- [Lab 5 Create a custom Dev Box definition with a VM Image](#lab-5-Create-a-custom-Dev-Box-definition-with-a-VM-Image)
 
-- [Lab 6 - Clean-Up](#lab-6-clean-up)
+- [Lab 6 Clean-Up](#lab-6-clean-up)
 
-- [Lab 7 - Already finished? Optional Bonus activities!](#lab-7-already-finished-optional-bonus-activities)
+- [Lab 7 Already finished? Optional Bonus activities!](#lab-7-already-finished-optional-bonus-activities)
 
 # Pre-lab setup
 
@@ -115,7 +115,7 @@ Please work through the below steps before starting the first lab.
 </details><br>
 
 
-# Lab 1 - IT Admin Persona
+# Lab 1 IT Admin Persona
 
 Please perform the following steps as your **global administrator account**. The steps in this lab will take you about 45 minutes to 1 hour to complete.
 
@@ -331,7 +331,7 @@ Finally, we also want to create a target environment for deployment via the dev 
 
 **This lab is now complete!**
 
-# Lab 2 - Development Manager Persona
+# Lab 2 Development Manager Persona
 
 The steps in this lab will take you about 15 minutes to complete.
 
@@ -367,7 +367,7 @@ We recommend exploring the **"Learn more about dev box licensing requirements"**
 
 **This lab is now complete!**
 
-# Lab 3 - Developer Persona
+# Lab 3 Developer Persona
 
 The steps in this lab will take you about 20 minutes to complete. This excludes the time that it takes to provision the Dev Box instances which can take between 30 and 90 minutes each.
 
@@ -418,7 +418,7 @@ We will not go into a lot of detail on InTune and its features in this lab, but 
 
 -   Test the connection experience to **either box via the browser** and the **Remote Desktop Client on your machine**. You may need to download an updated client if the one you have does not work. This is an option from the Dev Box RDP connection menu.
 -   Once you have confirmed that both Dev Boxes are working, we will only continue with the "ProjectA-UK-DevBox" box for the rest of the lab. Feel free to **delete the "ProjectB-India-DevBox" box at this stage by clicking "..." > "Delete"**
--   Connect to **ProjectA-UK-DevBox** dev box and open **VSCode**** which is already pre-installed as part of the VM Image.
+-   Connect to **ProjectA-UK-DevBox** dev box and open **VSCode** which is already pre-installed as part of the VM Image.
 -   Once in VSCode open a terminal window  run the following commands to create a new MVC app:
 
 ```  
@@ -459,20 +459,33 @@ Next we will deploy the code directly from our Dev Box in VSCode to our *dev-cen
   - In the VSCode *file* view, right click the "bin\Publish" folder and select "Deploy to Web App..." and follow the prompts.
   - Once the deployment is finished, click *Browse Website* to validate the deployment.
 
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image55.png" width="75%" /></div>
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image55.png" width="50%" /></div>
 
 **You have successfully deployed your first application to Azure via a Dev Box!**
 </details><br>
 
 **This lab is now complete!**
 
-# Lab 4 - Customisations
+# Lab 4 Customisations
+Getting developers started on a new project or team can be complex and time-consuming. The Microsoft Dev Box *customizations* feature helps you streamline setup of the developer environment.
 
+Individual developers can attach a YAML-based customization file when creating their dev box to control the development environment. Developers should use **individual customizations** only for personal settings and apps. Tasks specified in the individual customization file run only in the user context, after sign-in.
 
+Although teams of developers can share common YAML files, this approach can be inefficient and error prone. It can also be against compliance policies. Dev Box **team customizations** provide a workflow for developer team leaders, project admins, and dev center administrators to preconfigure customization files in dev box pools. This way, a developer who's creating a dev box doesn't need to find and upload a customization file.
+
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/teamcustomisations.png" width="75%" /></div>
+
+> Note: The Dev Box team customizations feature is currently in preview
+
+To create a dev box using team customisations follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/quickstart-team-customizations).
+
+Using a customization file simplifies the creation of dev boxes for your team. With dev box customizations, you can create a shared team customization by creating a file called an image definition. Creating a reusable image from this image definition optimizes customizations and saves time during dev box creation. In this article, you learn how to configure a pool to use an image definition and build reusable images for your development teams.
+
+To configure imaging for dev box team customisations follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/how-to-configure-customization-imaging).
 
 **This lab is now complete!**
 
-# Lab 5 - Create a custom Dev Box definition with a VM Image
+# Lab 5 Create a custom Dev Box definition with a VM Image
 
 While Microsoft Dev Box offers a growing library of images for you to use, many scenarios may require you to bring a custom image.
 
@@ -658,7 +671,7 @@ The first step will be to make our Dev Center aware of our custom image gallery.
 
 **This lab is now complete!**
 
-# Lab 6 - Clean-Up
+# Lab 6 Clean-Up
 
 To avoid any unexpected charges, **ensure that your dev boxes are deleted** if you are not using them for
 a while.
@@ -669,7 +682,7 @@ If you would like to keep resources deployed, ensure that you **stop the Dev Box
 
 **Thank you for completing the lab!**
 
-# Lab 7 - Already finished? Optional Bonus activities!
+# Lab 7 Already finished? Optional Bonus activities!
 
 ## Try App Templates
 
