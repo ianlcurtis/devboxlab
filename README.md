@@ -54,11 +54,13 @@ Feel free to adapt this to match your use case.
 
   - [Use a Dev Box for a simple deployment with Visual Studio](#use-a-dev-box-for-a-simple-deployment-with-visual-studio)
 
-- [Lab 4 - Create a custom Dev Box definition with a VM Image](#lab-4-Create-a-custom-Dev-Box-definition-with-a-VM-Image)
+- [Lab 4 - Customisations](#Lab-4-Customisations) 
 
-- [Lab 5 - Clean-Up](#lab-5-clean-up)
+- [Lab 5 - Create a custom Dev Box definition with a VM Image](#lab-4-Create-a-custom-Dev-Box-definition-with-a-VM-Image)
 
-- [Lab 6 - Already finished? Optional Bonus activities!](#lab-6-already-finished-optional-bonus-activities)
+- [Lab 6 - Clean-Up](#lab-6-clean-up)
+
+- [Lab 7 - Already finished? Optional Bonus activities!](#lab-7-already-finished-optional-bonus-activities)
 
 # Pre-lab setup
 
@@ -391,70 +393,86 @@ We recommend that you remain logged in as the Admin account in your main browser
     -   Create a box called **"ProjectB-India-DevBox"** in the **"ProjectB-India"** devbox pool
     -   Create a box called **"ProjectA-UK-DevBox"**
 
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image46.png" width="35%" /></div>
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image46.png" width="50%" /></div>
 
 -   **Confirm the creation** of both boxes. The Microsoft Dev Box service will now start creating the Dev Boxes. This will take roughly 30 minutes.
 
 **OPTIONAL:** Before you return to the Incognito/InPrivate window where you started the creation of your Dev Boxes, you can check the virtual network that you created as the Admin (M365 tenant admin) user. It should now have two virtual network interfaces attached to it, one for each Dev Box.
 
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image48.png" width="75%" /></div>
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image48.png" width="50%" /></div>
 
 **OPTIONAL:** You can also use your Admin (M365 tenant admin) account to log into the [Microsoft Endpoint manager](https://endpoint.microsoft.com/#home) where both Dev Boxes will be registered when created. It may take a few minutes for the devices to show up as they are provisioned and it is not until provisioning is finished that all the device details populate in Endpoint Manager.
 
 We will not go into a lot of detail on InTune and its features in this lab, but you can explore the user interface to see the features that are available to you there. It includes things such as auto-provisioning apps to all of your devices or restricting the use of certain apps based on organizational policy.
 
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image49.png" width="75%" /></div>
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image49.png" width="50%" /></div>
 </details>
 
-## Use a Dev Box for a simple deployment with Visual Studio
+## Use a Dev Box for a simple deployment with VSCode
 <details>
-  <summary>TASK: Using the Project A dev box, create a blank ASP.Net project and deploy it to the "dev-center-deployment-target" resource group.</summary>
+  <summary>TASK: Using the Project A dev box, create a blank ASP.Net MVC project and deploy it to the "dev-center-deployment-target" resource group.</summary>
 
 -   Return to **the [Dev Box Portal](https://aka.ms/devbox-portal) as the "Developer" user** **(Alex)** and review the status of your Dev Boxes. Hopefully they have come online while you were away.
 
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image50.png" width="75%" /></div>
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image50.png" width="50%" /></div>
 
 -   Test the connection experience to **either box via the browser** and the **Remote Desktop Client on your machine**. You may need to download an updated client if the one you have does not work. This is an option from the Dev Box RDP connection menu.
--   Once you have confirmed that both Dev Boxes are working, we will only continue with the "vs2022" box for the rest of the lab. Feel free to **delete the "m365" box at this stage by clicking "..." > "Delete"**
--   **Connect to the vs2022 box** and **open Visual Studio** which is already pre-installed as part of the VM Image.
--   Once in Visual Studio **choose to create a new project**
+-   Once you have confirmed that both Dev Boxes are working, we will only continue with the "ProjectA-UK-DevBox" box for the rest of the lab. Feel free to **delete the "ProjectB-India-DevBox" box at this stage by clicking "..." > "Delete"**
+-   Connect to **ProjectA-UK-DevBox** dev box and open **VSCode**** which is already pre-installed as part of the VM Image.
+-   Once in VSCode open a terminal window  run the following commands to create a new MVC app:
 
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image51.png" width="75%" /></div>
+```  
+dotnet new mvc -o MyMVCapp
+code -r MyMVCapp
+```
+> If prompted to install the C# Dev Kit, accept.
 
--   Create **a new ASP.NET Core Web App.** You can pick your own name for the web application. Stick with all defaults until you are prompted to **Create** the app. Confirm the dialogue to move into the main view of Visual Studio.
+-   VSCode should now be open with the vanilla MVC program files.
 
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image52.png" width="40%" /></div>
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image51.png" width="50%" /></div>
 
-Next we will deploy the code directly from our Dev Box in Visual Studio to our Deployment-Target resource group. To do this we will do a simple deployment from Visual Studio.
+-    Open a terminal window and run the following command to create a deployment package:
+```
+dotnet publish -c Release -o ./bin/Publish
+```
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image52.png" width="50%" /></div>
 
--   In the **"Solution Explorer"** right click your web application and choose **"Publish..."**
--   In the menu **choose "Azure"**
+Next we will deploy the code directly from our Dev Box in VSCode to our *dev-center-deployment-target* resource group.
+-   Install the Azure App Service plugin in VSCode by selecting the *Extensions* icon from the left-hand menu, search for "Azure" and selecting *Azure App Service* plugin.
+> Note: we could have done this automatically as part of the Dev Box deployment.
 
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image53.png" width="75%" /></div>
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image53.png" width="50%" /></div>
 
--   Choose the **"Azure App Service (Windows)"** deployment option and continue.
--   On the next page choose to **sign in** and sign in with your developer credentials. (Alex)
+-   Open the Azure App Service plugin and click the "Sign in to Azure" link, signing in with Alex's credentials.
 
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image54.png" width="75%" /></div>
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image54.png" width="50%" /></div>
 
--   The **"Publish"** window should now appear giving you the option to **"create a new"** App Service.
--   Confirm the defaults to create a new app service
+- Next we create a web app:
+  - Expand the subscription that has opened in the App Service plugin window.
+  - Right-click App Services and select Create New Web App... (Advanced)
+  - Enter a unique name for the web app.
+  - Select the "dev-center-deployment-target" resource group created earlier in an earlier lab.
+  - Select the most recent stable .NET runtime (such as .NET 9). Do not select the ASP.NET runtime, which is for .NET Framework apps.
+  - Select your pricing tier. Free (F1) is acceptable for this tutorial.
+
+- Finally ow we deploy our app to the newly created App Service:
+  - In the VSCode *file* view, right click the "bin\Publish" folder and select "Deploy to Web App..." and follow the prompts.
+  - Once the deployment is finished, click *Browse Website* to validate the deployment.
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image55.png" width="75%" /></div>
 
--   Once complete hit **"Finish"** and then **"Close"**
--   You should now see a screen allowing you to **"Publish"** the app
-
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image56.png" width="75%" /></div>
-
--   Once the deployment completes you should see the website in the browser of your Dev Box.
-
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image57.png" width="75%" /></div><br>
+**You have successfully deployed your first application to Azure via a Dev Box!**
 </details><br>
 
 **This lab is now complete!**
 
-# Lab 4 - Create a custom Dev Box definition with a VM Image
+# Lab 4 - Customisations
+
+
+
+**This lab is now complete!**
+
+# Lab 5 - Create a custom Dev Box definition with a VM Image
 
 While Microsoft Dev Box offers a growing library of images for you to use, many scenarios may require you to bring a custom image.
 
@@ -640,7 +658,7 @@ The first step will be to make our Dev Center aware of our custom image gallery.
 
 **This lab is now complete!**
 
-# Lab 5 - Clean-Up
+# Lab 6 - Clean-Up
 
 To avoid any unexpected charges, **ensure that your dev boxes are deleted** if you are not using them for
 a while.
@@ -651,7 +669,7 @@ If you would like to keep resources deployed, ensure that you **stop the Dev Box
 
 **Thank you for completing the lab!**
 
-# Lab 6 - Already finished? Optional Bonus activities!
+# Lab 7 - Already finished? Optional Bonus activities!
 
 ## Try App Templates
 
