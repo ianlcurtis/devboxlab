@@ -460,7 +460,7 @@ To configure imaging for dev box team customisations follow the instructions in 
 
 # Lab 5 Create a custom Dev Box definition
 
-While Microsoft Dev Box offers a growing library of images for you to use, many scenarios may require you to bring a custom image.
+While Microsoft Dev Box offers a growing library of images for you to use with *customisations* providing additional flexibility, some scenarios may require you to bring a custom image.
 
 ## Create a custom Dev Box definition with VM Image Builder 
 Creating custom VM images manually or with other tools can be difficult and unreliable. VM Image Builder, which is built on HashiCorp Packer, offers the advantages of a managed service.
@@ -488,7 +488,7 @@ To create a VM image definition in a Compute Gallery follow the instructions in 
 
 ## Create a custom Dev Box definition with a VM Image
 <details>
-  <summary>TASK: Create a Virtual Machine resource from the "Windows 11 Pro, version 24H2 - Gen2" base image inside a resource group called "image-capture".</summary>
+  <summary>TASK: Create a Virtual Machine resource from a Dev Box compatible base image inside a resource group called "image-capture".</summary>
 
 In this section we will run through the **basic steps to capture a custom image**, which we'll then store in an **Azure Compute Gallery** from where our Dev Center will be able to access it.
 
@@ -499,10 +499,10 @@ In this section we will run through the **basic steps to capture a custom image*
 
 -   In the next screen:
     -   Set the target resource group to be a new resource group called **"image-capture"**.
-    -   Name the machine **"win11"**.
-    -   Set the region to be the same as your chosen region.
+    -   Give the machine a suitable name.
+    -   Set the region to be *uksouth*.
     -   Set **No infrastructure redundancy** and **Standard security**.
-    -   Select the **Windows 11 Pro, version 24H2 - Gen2** image from the dropdown. We will install our chosen custom software shortly.
+    -   Select a Dev Box compatible image from the dropdown. We will install our chosen custom software shortly.
     -   Select a small compute option.
     -   Create a username and password (keep these for later).
     -   Check the licensing confirmation
