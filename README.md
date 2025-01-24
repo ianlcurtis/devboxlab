@@ -304,7 +304,7 @@ Finally, we also want to create a target environment for deployment via the dev 
 
 The steps in this lab will take you about 15 minutes to complete.
 
-> We recommend that you remain logged in as the Admin account in your main browser window and open a separate "Incognito"/ "InPrivate" window to perform the upcoming actions as the "Development Manager" (Adele) persona.
+> We recommend that you remain logged in as the Admin account in your main browser window and open a separate "Incognito/InPrivate" window to perform the upcoming actions as the "Development Manager" (Adele) persona.
 
 <details>
   <summary>TASK: On behalf of the Dev Team Manager, create Dev Box pools for Project A and Project B to address our use case.</summary>
