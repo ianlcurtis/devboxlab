@@ -38,11 +38,9 @@ Feel free to adapt this scenario to match your use case!
 
   - [Attach the network connection](#attach-the-network-connection)
 
-  - [Create a Dev Box definition with a built-in VM image](#create-a-dev-box-definition-with-a-built-in-vm-image)
+  - [Create Dev Box definitions with built-in VM images](#create-dev-box-definitions-with-built-in-vm-images)
 
-  - [Create a custom Dev Box definition with VM Image Builder](#Create-a-custom-Dev-Box-definition-with-VM-Image-Builder)
-
-  - [Assign permissions to the Dev Manager and Developer personas](#Assign-permissions-to-the-Dev-Manager-and-Developer-personas)
+  - [Assign permissions to the Dev Manager and Developer personas](#assign-permissions-to-the-dev-manager-and-developer-personas)
 
 - [Lab 2 Development Manager Persona](#lab-2-development-manager-persona)
 
@@ -54,7 +52,11 @@ Feel free to adapt this scenario to match your use case!
 
 - [Lab 4 Incorporate Customisations](#lab-4-incorporate-customisations) 
 
-- [Lab 5 Create a custom Dev Box definition with a VM Image](#lab-5-Create-a-custom-Dev-Box-definition-with-a-VM-Image)
+- [Lab 5 Create a custom Dev Box definition](#lab-5-create-a-custom-dev-box-definition)
+
+  - [Create a custom Dev Box definition with VM Image Builder](#create-a-custom-dev-box-definition-with-vm-image-builder)
+
+  - [Create a custom Dev Box definition with a VM Image](#create-a-custom-dev-box-definition-with-a-vm-image)
 
 - [Lab 6 Clean-Up](#lab-6-clean-up)
 
@@ -222,9 +224,9 @@ In the Azure Portal, **go back to the "Create a resource" blade** and in the sea
 -   The Dev center now knows how to connect new Dev Boxes to your Azure virtual network. Next, we need to create dev box definitions.
 </details>
 
-## Create a Dev Box definition with a built-in VM image 
+## Create Dev Box definitions with built-in VM images 
 <details>
-  <summary>TASK: In the Dev Center resource, create a "Windows 11 Enterprise + Microsoft 365 Apps 21H2" Dev Box definition with 8vCPUs and 256GB RAM.</summary>
+  <summary>TASK: In the Dev Center resource, create a "Windows 11 Enterprise + Microsoft 365 Apps 21H2" Dev Box definition with 8vCPUs and 256GB RAM. Do the same for a "Visual Studio 2022 Enterprise On Windows 11 Enterprise + Microsoft 365 Apps 24H2" Dev Box definition.</summary>
 
 -   Return to the **"dev-center-core"** resource group in the Azure Portal and select your Dev Center resource.
 -   To create a new dev box definition, select **"Dev box definitions"** blade in the side bar.
@@ -240,30 +242,7 @@ In the Azure Portal, **go back to the "Create a resource" blade** and in the sea
 
 -   Click the **"Create"** button. This makes the definition available to managers in the organization to select for their projects.
 -   Once back on the main blade the **"Image Status"** may show as "pending" for a few moments but should soon update to "No errors found"
-</details>
-
-## Create a custom Dev Box definition with VM Image Builder 
-Creating custom VM images manually or with other tools can be difficult and unreliable. VM Image Builder, which is built on HashiCorp Packer, offers the advantages of a managed service.
-
-To create a VM image definition in a Compute Gallery follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/how-to-customize-devbox-azure-image-builder).
-
-<details>
-  <summary>TASK: Attach the Compute Gallery containing the custom image to Dev Center, and create a Dev Box definition</summary>
-
--   Return to the **"dev-center-core"** resource group in the Azure Portal and select your Dev Center resource.
--   Open the **"Azure compute galleries"** blade, click the **"Add"** button, and select the Compute Gallery named "devboxGallery" created in the mslearn above.
--   To create a Dev Box definition, now select **"Dev box definitions"** in the side bar.
--   Select the **"Create"** option in the blade that appears.
--   We will call this definition the **"custom-vscode"** definition.
--   Click **"See all images"** to make sure the custom image you just added is in the list. **Select it by clicking its name** and confirming with the **"Select"** button.
--   Select the **"latest"** image version
--   Select **8 vCPUs and 32 GB of RAM**
--   Select the **smallest storage option** to keep costs lower
--   Finally click **"Create"**
-
-<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image341.png" width="50%" /></div>
-
--   Wait a few moments while the image is analyzed and confirm that it moves from **"Pending"** to the **"Succeeded/No Errors"** state.
+-   Repeat the process to create a **"Visual Studio 2022 Enterprise On Windows 11 Enterprise + Microsoft 365 Apps 24H2"** Dev Box definition called **"standard-vscode"**
 </details>
 
 ## Assign permissions to the Dev Manager and Developer personas
@@ -334,12 +313,12 @@ The steps in this lab will take you about 15 minutes to complete.
 -   Once in the Azure Portal select **"All resources"**. You should see only the project resource that we created at the end of the previous lab. If you do not see the project resource, return to the last task of the previous lab and verify that you are using the correct user account and that the user account has the relevant project admin permission.
 -   Select the project resource and then select **"Dev box pools"** in the sidebar of the blade that appears.
 -   Click the **"Create"** button to create a new definition and complete the form confirming your choices by once again clicking **"Create".**
--   Complete this process for *Project A* and *Project B* pools to match our use case. See the next page for a sample screenshot.
+-   Complete this process for *Project A* and *Project B* pools to match our use case.
 
 |                            | Project A Pool           | Project B Pool           | Project B Pool           |
 |----------------------------|--------------------------|--------------------------|--------------------------|
 | Name                       | Project-A-UK             | Project-B-UK             | Project-B-India          |
-| Definition                 | custom-vscode            | standard-m365            | standard-m365            |
+| Definition                 | standard-vscode          | standard-m365            | standard-m365            |
 | Network Connection         | uk-con                   | uk-con                   | india-con                |
 | Dev Box Creator Privileges | Local Admin              | Local Admin              | Local Admin              |
 | Licensing                  | [x]                      | [x]                      | [x]                      |
@@ -366,7 +345,7 @@ The steps in this lab will take you about 20 minutes to complete. This excludes 
 <details>
   <summary>TASK: On behalf of the Developer, provision a dev box for Project A, and Project B (India).</summary>
 
-We recommend that you remain logged in as the Admin account in your main browser window and open a separate "Incognito"/ "InPrivate" window to perform the upcoming actions as the "Developer" (Alex) persona.
+We recommend that you remain logged in as the Admin account in your main browser window and open a separate "Incognito/InPrivate" window to perform the upcoming actions as the "Developer" (Alex) persona.
 
 -   Using the credentials that you noted down from Lab 1, **log into the [Dev Box Portal](https://aka.ms/devbox-portal) as the "Developer" user (Alex)** and perform any tasks necessary to reset your password.
 
@@ -457,6 +436,8 @@ Next we will deploy the code directly from our Dev Box in VSCode to our *dev-cen
 **This lab is now complete!**
 
 # Lab 4 Incorporate Customisations
+The steps in this lab will take you about 30 minutes to complete.
+
 Getting developers started on a new project or team can be complex and time-consuming. The Microsoft Dev Box *customizations* feature helps you streamline setup of the developer environment.
 
 Individual developers can attach a YAML-based customization file when creating their dev box to control the development environment. Developers should use **individual customizations** only for personal settings and apps. Tasks specified in the individual customization file run only in the user context, after sign-in.
@@ -468,19 +449,44 @@ Although teams of developers can share common YAML files, this approach can be i
 > Note: The Dev Box team customizations feature is currently in preview
 
 ## Create Team Customisations
-To create a dev box using team customisations follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/quickstart-team-customizations).
+To create a dev box using team customisations follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/quickstart-team-customizations). This would be the role of the Dev Manager, so you should run this under the Dev Manager persona.
 
 ## Create a Reusable Team Customisations Image
-Using a customization file simplifies the creation of dev boxes for your team. With dev box customizations, you can create a shared team customization by creating a file called an image definition. Creating a reusable image from this image definition optimizes customizations and saves time during dev box creation.
+Using a customization file simplifies the creation of dev boxes for your team. With dev box customizations, you can create a shared team customization by creating a file called an image definition. Creating a reusable image from this image definition optimizes customizations and saves time during dev box creation. This would be the role of the Dev Manager, so you should run this under the Dev Manager persona.
 
 To configure imaging for dev box team customisations follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/how-to-configure-customization-imaging).
 
 **This lab is now complete!**
 
-# Lab 5 Create a custom Dev Box definition with a VM Image
+# Lab 5 Create a custom Dev Box definition
 
 While Microsoft Dev Box offers a growing library of images for you to use, many scenarios may require you to bring a custom image.
 
+## Create a custom Dev Box definition with VM Image Builder 
+Creating custom VM images manually or with other tools can be difficult and unreliable. VM Image Builder, which is built on HashiCorp Packer, offers the advantages of a managed service.
+
+To create a VM image definition in a Compute Gallery follow the instructions in this [mslearn article](https://learn.microsoft.com/en-us/azure/dev-box/how-to-customize-devbox-azure-image-builder).
+
+<details>
+  <summary>TASK: Attach the Compute Gallery containing the custom image to Dev Center, and create a Dev Box definition</summary>
+
+-   Return to the **"dev-center-core"** resource group in the Azure Portal and select your Dev Center resource.
+-   Open the **"Azure compute galleries"** blade, click the **"Add"** button, and select the Compute Gallery named "devboxGallery" created in the mslearn above.
+-   To create a Dev Box definition, now select **"Dev box definitions"** in the side bar.
+-   Select the **"Create"** option in the blade that appears.
+-   We will call this definition the **"custom-vscode"** definition.
+-   Click **"See all images"** to make sure the custom image you just added is in the list. **Select it by clicking its name** and confirming with the **"Select"** button.
+-   Select the **"latest"** image version
+-   Select **8 vCPUs and 32 GB of RAM**
+-   Select the **smallest storage option** to keep costs lower
+-   Finally click **"Create"**
+
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image341.png" width="50%" /></div>
+
+-   Wait a few moments while the image is analyzed and confirm that it moves from **"Pending"** to the **"Succeeded/No Errors"** state.
+</details>
+
+## Create a custom Dev Box definition with a VM Image
 <details>
   <summary>TASK: Create a Virtual Machine resource from the "Windows 11 Pro, version 24H2 - Gen2" base image inside a resource group called "image-capture".</summary>
 
@@ -552,7 +558,7 @@ With the remote session now closed you will find yourself back in your browser w
 Creating the image will take a few minutes to complete. While you are waiting, you can move to the next step where we will create a Dev Box definition with a built-in VM image, before returning to our custom image.
 </details>
 
-## Create the Dev Box definition 
+### Create the Dev Box definition 
 > **Note:** you can only complete this step once the custom image has been created in your **dev-center-core** resource group.
 
 <details>
