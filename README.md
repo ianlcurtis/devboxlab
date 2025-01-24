@@ -445,7 +445,7 @@ Next we will deploy the code directly from our Dev Box in VSCode to our *dev-cen
   - Select the most recent stable .NET runtime (such as .NET 9). Do not select the ASP.NET runtime, which is for .NET Framework apps.
   - Select your pricing tier. Free (F1) is acceptable for this tutorial.
 
-- Finally ow we deploy our app to the newly created App Service:
+- Finally we deploy our app to the newly created App Service:
   - In the VSCode *file* view, right click the "bin\Publish" folder and select "Deploy to Web App..." and follow the prompts.
   - Once the deployment is finished, click *Browse Website* to validate the deployment.
 
