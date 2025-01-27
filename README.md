@@ -168,7 +168,7 @@ You can find the latest regional availability [here](https://aka.ms/devbox/regio
 
 ## Create a network connection
 <details>
-  <summary>TASK: Create a Network Connection resource called "uk-con" with "Azure active directory join"*" enabled inside a resource group named "dev-center-core" attached to the Virtual Network previously created. Do the same for an "india-con" Network Connection</summary>
+  <summary>TASK: Create a Network Connection resource called "uk-con" with "Azure active directory join" enabled inside a resource group named "dev-center-core" attached to the Virtual Network previously created. Do the same for an "india-con" Network Connection</summary>
 
 Once the network is deployed, we need to create network connections that we'll be able to leverage for our dev boxes.
 
