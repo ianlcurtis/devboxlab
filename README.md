@@ -192,7 +192,7 @@ Once the network is deployed, we need to create network connections that we'll b
 
 ## Create a Dev Center
 <details>
-  <summary>TASK: Create a Dev Center resource called "dev-center-uk01" inside the "dev-center-core" resource group, and attach the previously created Network Connection.</summary>
+  <summary>TASK: Create a Dev Center resource called "dev-center-uk01" inside the "dev-center-core" resource group, and attach the previously created Network Connections.</summary>
 
 In the Azure Portal, **go back to the "Create a resource" blade** and in the search box, type **"Dev Center"** and then select "Dev Center" from the list. Click the **"Create"** option.
 
@@ -386,7 +386,7 @@ We will not go into a lot of detail on InTune and its features in this lab, but 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/image50.png" width="50%" /></div>
 
 -   Test the connection experience to **either box via the browser** and the **Remote Desktop Client on your machine**. You may need to download an updated client if the one you have does not work. This is an option from the Dev Box RDP connection menu.
--   Once you have confirmed that both Dev Boxes are working, we will only continue with the "ProjectA-UK-DevBox" box for the rest of the lab. Feel free to **delete the "ProjectB-India-DevBox" box at this stage by clicking "..." > "Delete"**
+-   Once you have confirmed that both Dev Boxes are working, we will only continue with the **"ProjectA-UK-DevBox"** box for the rest of the lab. Feel free to **delete the "ProjectB-India-DevBox" box at this stage by clicking "..." > "Delete"**
 -   Connect to **ProjectA-UK-DevBox** dev box and open **VSCode** which is already pre-installed as part of the VM Image.
 -   Once in VSCode open a terminal window  run the following commands to create a new MVC app:
 
