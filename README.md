@@ -696,3 +696,5 @@ App Templates can help you quickly deploy a specific solution including demo cod
 During this lab we performed most actions in the user interface, but that doesn't mean that the provisioning of a Microsoft Dev Box environment can't be automated.
 
 Follow the instructions here to provision a Dev Box environment from scratch using Bicep: [ljtill/bicep-devbox: Microsoft Dev Box platform built with Azure Bicep including GitHub Actions workflows](https://github.com/ljtill/bicep-devbox/)
+
+More samples here: https://github.com/Azure-Samples/Devcenter
