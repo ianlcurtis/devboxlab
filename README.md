@@ -52,15 +52,17 @@ Feel free to adapt this scenario to match your use case!
 
 - [Lab 4 Incorporate Customisations](#lab-4-incorporate-customisations) 
 
-- [Lab 5 Create a custom Dev Box definition](#lab-5-create-a-custom-dev-box-definition)
+- [Lab 5 Configure Dev Box Policies](#lab-5-configure-dev-box-policies) 
+
+- [Lab 6 Create a custom Dev Box definition](#lab-6-create-a-custom-dev-box-definition)
 
   - [Create a custom Dev Box definition with VM Image Builder](#create-a-custom-dev-box-definition-with-vm-image-builder)
 
   - [Create a custom Dev Box definition with a VM Image](#create-a-custom-dev-box-definition-with-a-vm-image)
 
-- [Lab 6 Clean-Up](#lab-6-clean-up)
+- [Lab 7 Clean-Up](#lab-7-clean-up)
 
-- [Lab 7 Already finished? Optional Bonus activities!](#lab-7-already-finished-optional-bonus-activities)
+- [Lab 8 Already finished? Optional Bonus activities!](#lab-8-already-finished-optional-bonus-activities)
 
 # Pre-lab setup
 
@@ -458,7 +460,73 @@ To configure imaging for dev box team customisations follow the instructions in 
 
 **This lab is now complete!**
 
-# Lab 5 Create a custom Dev Box definition
+# Lab 5 Configure Dev Box Policies
+The steps in this lab will take you about 30 minutes to complete.
+
+As development teams embrace cloud-based tools to accelerate their workflows, managing resources securely and efficiently across different projects has become a top priority. Microsoft Dev Box is designed to streamline project-based development, providing developers with tailored cloud development environments optimized for productivity and collaboration.
+
+Project policies are a powerful new way for platform engineers to set guardrails around resources enabled on a per-project basis, allowing teams to balance flexibility with governance as they work on diverse projects. Project policies provide a mechanism to restrict access to certain resources—specifically, SKUs, Images, and Network Connections—to designated projects. This helps ensure that each project has controlled access to the resources it needs while keeping everything secure, isolated, and streamlined.
+
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/policies.png" width="50%" /></div>
+
+> Note: The Dev Box Policies are currently in preview
+
+In this lab we are going to create a **default** policy that restricts all Dev box projects to the lowest SKU machine. Then we'll create a policy scoped to *Project A* that permits higher SKU machines, while leaving the low SKU restriction on Project B.
+
+## Create a Default Policy
+With project policies, platform engineers have the option to configure a default project policy. Think of this default policy as a foundational layer applied across all projects in your Dev Center. This default policy helps establish baseline rules and ensures consistency in how sub-resources are managed.
+
+<details>
+  <summary>TASK: Create a default policy that limits SKU to the lowest available, and test it works.</summary>
+
+- Open the **"dev-center-core"** resource group in the Azure Portal and select your Dev Center resource.
+- In the *Settings* menu select the **"Project policy"** option.
+- Click the *Create* button.
+
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/createpolicy.png" width="75%" /></div>
+
+- Select **All current and future projects**. This option will automatically set the name for the project policy to "default".
+- Click the **Select SKUs** link, and check the *8vCPU, 32GB RAM, 256 GB SSD* SKU. Hit *Select* to accept your selection.
+- Add any other Image, Network, or SKU retrictions you wish, then hit *Create* to create the default policy. 
+
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/configuredefaultpolicy.png" width="75%" /></div>
+
+Now let's test this default policy.
+- Enforce the default policy by checking the relevent resource type checkboxes for the restrictions you created e.g. *SKU*.
+
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/enforceskupolicy.png" width="75%" /></div>
+
+- Create a Dev box *definition* with properties that violate the default policy e.g. retricted SKU.
+- Now create a Dev box pool that utilises the violating definition.
+
+When policies are enforced, Microsoft Dev Box evaluates the health of existing resource pools against the new policy settings:
+- Pool Health Check: Each resource pool is evaluated to determine compliance with the enforced policies.
+- Unhealthy Pools: If a pool fails to meet the enforced requirements, it may be marked as unhealthy. This prevents any new Dev Boxes from being created within that pool.
+- Existing Dev Boxes Remain Active: Dev Boxes already created within an unhealthy pool will continue to function normally, so your teams can keep working without disruption.
+
+</details>
+
+## Create a Custom Project Policy
+After the default project policy is in place, you can create additional policies to address specific needs or restrictions for individual projects. Custom policies allow admins to set guardrails that are unique to the project’s requirements, whether that means offering high-powered SKUs for certain projects or restricting network access based on security considerations.
+
+<details>
+  <summary>TASK: Create a custom policy on Project A that permits a higher SKU machine, and test it works.</summary>
+
+- Return to the *Project policy* blade and click the *Create* button.
+- Select *Project A* as the specified project.
+- Provide a name for the policy e.g. "Project-A-SKU"
+
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/createcustompolicy.png" width="75%" /></div>
+
+- Select one or more permitted SKUs, then hit *Create* to create the custom policy.
+- This time create a Dev box *definition* with properties that violate the default policy but not the Project-A-SKU policy.
+- Now create a Dev box pool for both Project A and Project B that utilises the definition.
+
+</details><br>
+
+**This lab is now complete!**
+
+# Lab 6 Create a custom Dev Box definition
 
 While Microsoft Dev Box offers a growing library of images for you to use with *customisations* providing additional flexibility, some scenarios may require you to bring a custom image.
 
@@ -669,7 +737,7 @@ The first step will be to make our Dev Center aware of our custom image gallery.
 
 **This lab is now complete!**
 
-# Lab 6 Clean-Up
+# Lab 7 Clean-Up
 
 To avoid any unexpected charges, **ensure that your dev boxes are deleted** if you are not using them for
 a while.
@@ -680,7 +748,7 @@ If you would like to keep resources deployed, ensure that you **stop the Dev Box
 
 **Thank you for completing the lab!**
 
-# Lab 7 Already finished? Optional Bonus activities!
+# Lab 8 Already finished? Optional Bonus activities!
 
 ## Try App Templates
 
