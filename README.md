@@ -470,11 +470,13 @@ Project policies are a powerful new way for platform engineers to set guardrails
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/policies.png" width="50%" /></div>
 
 > Note: The Dev Box Policies are currently in preview
+> Note: Dev Box Policies apply to *Image Definitions*, NOT *Dev Box Definitions*.
+> Note: This lab assumes that you have added a catalog with image definitions to *Project A* during the previous *Customisations* lab. 
 
-In this lab we are going to create a **default** policy that restricts all Dev box projects to the lowest SKU machine. Then we'll create a policy scoped to *Project A* that permits higher SKU machines, while leaving the low SKU restriction on Project B.
+In this lab we are going to create a **default** policy that restricts all Dev box projects to the lowest SKU machine. Then we'll create a policy scoped to *Project A* that permits higher SKU machines.
 
 ## Create a Default Policy
-With project policies, platform engineers have the option to configure a default project policy. Think of this default policy as a foundational layer applied across all projects in your Dev Center. This default policy helps establish baseline rules and ensures consistency in how sub-resources are managed.
+With project policies, platform engineers have the option to configure a default project policy. Think of this default policy as a foundational layer applied across all projects in your Dev Center. This default policy helps establish baseline rules and ensures consistency in how sub-resources are managed. 
 
 <details>
   <summary>TASK: Create a default policy that limits SKU to the lowest available, and test it works.</summary>
@@ -492,17 +494,22 @@ With project policies, platform engineers have the option to configure a default
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/configuredefaultpolicy.png" width="75%" /></div>
 
 Now let's test this default policy.
-- Enforce the default policy by checking the relevent resource type checkboxes for the restrictions you created e.g. *SKU*.
+- Enforce the default policy by checking the relevent resource type checkboxes for the restrictions you created e.g. *SKU*, and hitting *Apply*.
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/enforceskupolicy.png" width="75%" /></div>
 
-- Create a Dev box *definition* with properties that violate the default policy e.g. retricted SKU.
-- Now create a Dev box pool that utilises the violating definition.
+- Select the *Projects* menu option from the Dev Center **Manage** menu section, and click *Project A* to open the project pane.
+- Select the *Dev box pools* menu option from the Project **Manage**  menu section to view / create Dev box pools.
 
-When policies are enforced, Microsoft Dev Box evaluates the health of existing resource pools against the new policy settings:
-- Pool Health Check: Each resource pool is evaluated to determine compliance with the enforced policies.
-- Unhealthy Pools: If a pool fails to meet the enforced requirements, it may be marked as unhealthy. This prevents any new Dev Boxes from being created within that pool.
-- Existing Dev Boxes Remain Active: Dev Boxes already created within an unhealthy pool will continue to function normally, so your teams can keep working without disruption.
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/viewprojectdevboxpools.png" width="75%" /></div>
+
+- Click the *Create* button to display the *Create a dev box* pool pane.
+- Give the pool a name, e.g. "Project-A-Default-Policy-Pool".
+- From the *Definition* dropdown list, select an *Image Definition*, e.g. "backend-eng".
+- Select a compute and storage option. Note that only the *8vCPU, 32GB RAM, 256 GB SSD* option is listed. This is due to the default policy that we just created!
+- Go ahead and create the pool, or cancel out of the process - we aren't going to use this pool.
+
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/createpooldefaultpolicy.png" width="75%" /></div>
 
 </details>
 
@@ -518,11 +525,28 @@ After the default project policy is in place, you can create additional policies
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/createcustompolicy.png" width="75%" /></div>
 
-- Select one or more permitted SKUs, then hit *Create* to create the custom policy.
-- This time create a Dev box *definition* with properties that violate the default policy but not the Project-A-SKU policy.
-- Now create a Dev box pool for both Project A and Project B that utilises the definition.
+- Select *16vCPU, 64GB RAM, 256 GB SSD* SKU, then hit *Create* to create the custom policy. This will permit *Project A* Development Managers to define either the default policy 8vCPU machine, or the *Project A* custom 16vCPU SKU. 
+
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/createprojectapolicy.png" width="75%" /></div>
+
+- Again, select the *Projects* menu option from the Dev Center **Manage** menu section, and click *Project A* to open the project pane.
+- Select the *Dev box pools* menu option from the Project **Manage**  menu section to view / create Dev box pools.
+- Click the *Create* button to display the *Create a dev box* pool pane.
+- Give the pool a name, e.g. "Project-A-Custom-Policy-Pool".
+- From the *Definition* dropdown list, select an *Image Definition*, e.g. "backend-eng".
+- Select a compute and storage option. Note that now as an admin, you have the choice of either the default *8vCPU, 32GB RAM, 256 GB SSD* option, or the more powerful *16vCPU, 64GB RAM, 256 GB SSD* SKU. This is due to the new custom policy.
+
+<div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/createpoolcustom.png" width="75%" /></div>
+
+- Go ahead and create the pool, or cancel out of the process - we aren't going to use this pool.
 
 </details><br>
+
+>Note: When policies are enforced, Microsoft Dev Box evaluates the health of existing resource pools against the new policy settings:
+- Pool Health Check: Each resource pool is evaluated to determine compliance with the enforced policies.
+- Unhealthy Pools: If a pool fails to meet the enforced requirements, it may be marked as unhealthy. This prevents any new Dev Boxes from being created within that pool.
+- Existing Dev Boxes Remain Active: Dev Boxes already created within an unhealthy pool will continue to function normally, so your teams can keep working without disruption.
+<br>
 
 **This lab is now complete!**
 
