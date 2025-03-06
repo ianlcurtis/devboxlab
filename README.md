@@ -469,7 +469,7 @@ Project policies are a powerful new way for platform engineers to set guardrails
 
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/policies.png" width="50%" /></div>
 
-> Note: The Dev Box Policies are currently in preview
+> Note: Dev Box Policies are currently in preview.
 
 > Note: Dev Box Policies apply to *Image Definitions*, NOT *Dev Box Definitions*.
 
