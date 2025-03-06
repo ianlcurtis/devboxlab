@@ -470,7 +470,9 @@ Project policies are a powerful new way for platform engineers to set guardrails
 <div style="text-align: center; margin-top: 10px; margin-bottom: 10px; display: block;"><img src="./media/policies.png" width="50%" /></div>
 
 > Note: The Dev Box Policies are currently in preview
+
 > Note: Dev Box Policies apply to *Image Definitions*, NOT *Dev Box Definitions*.
+
 > Note: This lab assumes that you have added a catalog with image definitions to *Project A* during the previous *Customisations* lab. 
 
 In this lab we are going to create a **default** policy that restricts all Dev box projects to the lowest SKU machine. Then we'll create a policy scoped to *Project A* that permits higher SKU machines.
